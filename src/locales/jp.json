@@ -21,7 +21,7 @@
         "difficulty": "難易度",
         "flag": "配置した旗",
         "share-button": "共有",
-        "again-button": "もう一度遊ぶ"
+        "again-button": "メインメニュー"
     },
     "mainmenu": {
         "description": "作成者: MeteorVIIx",
@@ -47,6 +47,7 @@
         "save-button": "変更を保存",
         "theme": {
             "title": "テーマ",
+            "system": "システム",
             "light": "ライト",
             "dark": "ダーク"
         },

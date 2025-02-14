@@ -21,7 +21,7 @@
         "difficulty": "ระดับความยาก",
         "flag": "จำนวนธง",
         "share-button": "แชร์",
-        "again-button": "เล่นอีกครั้ง"
+        "again-button": "กลับหน้าแรก"
     },
     "mainmenu": {
         "description": "สร้างโดย MeteorVIIx",
@@ -47,6 +47,7 @@
         "save-button": "บันทึกการเปลี่ยนแปลง",
         "theme": {
             "title": "ธีม",
+            "system": "ระบบ",
             "light": "สว่าง",
             "dark": "มืด"
         },

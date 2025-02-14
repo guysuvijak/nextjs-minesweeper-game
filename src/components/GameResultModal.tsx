@@ -40,6 +40,7 @@ export function GameResultModal({ isOpen, onClose, stats, language, onPlayAgain 
     };
 
     return (
+        <>
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className='sm:max-w-[425px]'>
                 <DialogHeader>
@@ -55,20 +56,20 @@ export function GameResultModal({ isOpen, onClose, stats, language, onPlayAgain 
                         <p>{t('gameresult.flag')}: {stats.flagsPlaced}</p>
                     </div>
                 </div>
-                <div className='flex justify-end space-x-2'>
+                <div className='flex justify-end space-x-2 z-30'>
                     <Button onClick={handleShare}>{t('gameresult.share-button')}</Button>
                     <Button onClick={onPlayAgain}>{t('gameresult.again-button')}</Button>
                 </div>
                 {stats.score > 0 &&
                     <Confetti
                         ref={confettiRef}
-                        className='absolute left-0 top-0 z-50 size-full'
+                        className='absolute left-0 top-0 z-10 size-full'
                         onMouseEnter={() => {
                             confettiRef.current?.fire({});
                         }}
                     />
                 }
             </DialogContent>
-        </Dialog>
+        </Dialog></>
     )
 };

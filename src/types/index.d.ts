@@ -18,3 +18,18 @@ export interface GameStats {
 }
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
+
+export interface Cell {
+    isMine: boolean;
+    isRevealed: boolean;
+    isFlagged: boolean;
+    neighborMines: number;
+};
+
+export type TranslationValue = string | { [key: string]: TranslationValue };
+
+export type TranslationsType = {
+    [K in Language]: {
+        [key: string]: TranslationValue;
+    };
+};

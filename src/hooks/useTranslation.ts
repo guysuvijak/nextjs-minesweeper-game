@@ -1,15 +1,8 @@
 import { useCallback } from 'react';
+import { TranslationValue, TranslationsType } from '@/types';
 import en from '@/locales/en.json';
 import th from '@/locales/th.json';
 import jp from '@/locales/jp.json';
-
-type TranslationValue = string | { [key: string]: TranslationValue };
-
-type TranslationsType = {
-    [K in Language]: {
-        [key: string]: TranslationValue;
-    };
-};
 
 const translations: TranslationsType = {
     en,

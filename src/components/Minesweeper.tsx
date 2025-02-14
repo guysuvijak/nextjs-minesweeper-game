@@ -5,25 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Flag, RotateCcw, Bomb, Pyramid, Radar, Skull, Flame } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { GameSettings, GameStats } from '@/types';
+import { GameSettings, GameStats, Difficulty, Cell } from '@/types';
 import { Timer } from '@/components/Timer';
 import { useTranslation, Language } from '@/hooks/useTranslation';
 import { useTheme } from 'next-themes';
 import { Particles } from '@/components/magicui/particles';
 
-interface Cell {
-    isMine: boolean;
-    isRevealed: boolean;
-    isFlagged: boolean;
-    neighborMines: number;
-};
-
-type Difficulty = 'easy' | 'medium' | 'hard';
-
 const DIFFICULTIES = {
     easy: { rows: 9, cols: 9, mines: 10 },
     medium: { rows: 16, cols: 16, mines: 40 },
-    hard: { rows: 16, cols: 30, mines: 99 },
+    hard: { rows: 16, cols: 30, mines: 99 }
 };
 
 interface MinesweeperProps {
