@@ -72,6 +72,9 @@ export default function Home() {
         //});
 
         const newPeer = new Peer({
+          host: 'nextjs-game-webrtc.vercel.app',
+          secure: true, // สำหรับ HTTPS
+          port: 443,    // สำหรับ HTTPS
           debug: 3
         });
 
@@ -96,7 +99,7 @@ export default function Home() {
     };
 
     initPeer();
-  });
+  },[]);
 
   const startNewGame = () => {
     const isStarter = Math.random() < 0.5;
