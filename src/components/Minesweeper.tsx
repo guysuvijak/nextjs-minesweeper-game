@@ -35,7 +35,7 @@ interface MinesweeperProps {
 
 export default function Minesweeper({ settings, difficulty: initialDifficulty, language, onGameOver }: MinesweeperProps) {
     const { t } = useTranslation(language);
-    const [difficulty, setDifficulty ] = useState<Difficulty>(initialDifficulty);
+    const [ difficulty ] = useState<Difficulty>(initialDifficulty);
     const [ board, setBoard ] = useState<Cell[][]>([]);
     const [ gameOver, setGameOver ] = useState(false);
     const [ gameWon, setGameWon ] = useState(false);

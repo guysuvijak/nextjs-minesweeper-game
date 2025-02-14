@@ -20,6 +20,7 @@ export default function Home() {
         bombIcon: 'default',
         numberStyle: 'default'
     });
+    console.log(showLeaderboard)
 
     const handleStartGame = (selectedDifficulty: Difficulty) => {
         setDifficulty(selectedDifficulty);

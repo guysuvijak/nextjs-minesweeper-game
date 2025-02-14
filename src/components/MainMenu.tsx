@@ -18,7 +18,7 @@ interface MainMenuProps {
     onShowLeaderboard: () => void;
 };
 
-export default function MainMenu({ onStartGame, onOpenSettings, language, onShowLeaderboard }: MainMenuProps) {
+export default function MainMenu({ onStartGame, onOpenSettings, language }: MainMenuProps) {
     const { t } = useTranslation(language);
     const [ selectedDifficulty, setSelectedDifficulty ] = useState<'easy' | 'medium' | 'hard'>('easy');
     const { resolvedTheme } = useTheme();
