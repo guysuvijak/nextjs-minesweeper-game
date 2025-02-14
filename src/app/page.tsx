@@ -71,11 +71,20 @@ export default function Home() {
         //  debug: 3
         //});
 
+        //const newPeer = new Peer({
+        //  host: 'nextjs-game-webrtc.vercel.app',
+        //  secure: true, // สำหรับ HTTPS
+        //  port: 443,    // สำหรับ HTTPS
+        //  debug: 3
+        //});
         const newPeer = new Peer({
-          host: 'nextjs-game-webrtc.vercel.app',
-          secure: true, // สำหรับ HTTPS
-          port: 443,    // สำหรับ HTTPS
-          debug: 3
+          debug: 3,
+          config: {
+            iceServers: [
+              { urls: 'stun:stun.l.google.com:19302' },
+              { urls: 'stun:global.stun.twilio.com:3478' }
+            ]
+          }
         });
 
         newPeer.on('open', (id) => {
