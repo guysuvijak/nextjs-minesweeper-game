@@ -57,7 +57,7 @@ const DATA = {
                 url: 'https://github.com/guysuvijak',
                 icon: Icons.github,
             },
-            Ca: {
+            SourceCode: {
                 name: 'Source-code',
                 url: 'https://github.com/guysuvijak/nextjs-minesweeper-game',
                 icon: Icons.github
