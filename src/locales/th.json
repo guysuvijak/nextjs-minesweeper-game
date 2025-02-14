@@ -39,7 +39,9 @@
         "mine": "ระเบิด",
         "reset-tooltip": "เริ่มใหม่",
         "win": "คุณชนะ!",
-        "lose": "จบเกม!"
+        "lose": "จบเกม!",
+        "flag-mode": "โหมดปักธง",
+        "dig-mode": "โหมดขุด"
     },
     "settings": {
         "title": "การตั้งค่า",
@@ -55,7 +57,9 @@
             "title": "ภาษา",
             "th": "ไทย",
             "en": "English",
-            "jp": "Japanese"
+            "jp": "Japanese",
+            "vi": "Vietnamese",
+            "zh": "Chinese"
         },
         "flag": {
             "title": "ธง"

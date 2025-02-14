@@ -1,16 +1,20 @@
 import { useCallback } from 'react';
-import { TranslationValue, TranslationsType } from '@/types';
+import { TranslationValue, TranslationsType, Language as LanguageType } from '@/types';
 import en from '@/locales/en.json';
 import th from '@/locales/th.json';
 import jp from '@/locales/jp.json';
+import vi from '@/locales/vi.json';
+import zh from '@/locales/zh.json';
 
 const translations: TranslationsType = {
     en,
     th,
-    jp
+    jp,
+    vi,
+    zh
 };
 
-export type Language = 'en' | 'th' | 'jp';
+export type Language = LanguageType;
 
 export function useTranslation(language: Language) {
     const t = useCallback((key: string, params?: Record<string, string>): string => {

@@ -3,13 +3,14 @@ import { useCallback, useEffect, useState, useRef } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Flag, RotateCcw, Bomb, Pyramid, Radar, Skull, Flame, ArrowLeft } from 'lucide-react';
+import { Flag, RotateCcw, Bomb, Pyramid, Radar, Skull, Flame, FlameKindling, ArrowLeft, Sparkles, Sigma, Ghost, Shovel } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { GameSettings, GameStats, Difficulty, Cell } from '@/types';
 import { Timer } from '@/components/Timer';
 import { useTranslation, Language } from '@/hooks/useTranslation';
 import { useTheme } from 'next-themes';
 import { Particles } from '@/components/magicui/particles';
+import { cn } from '@/lib/utils';
 
 const DIFFICULTIES = {
     easy: { rows: 9, cols: 9, mines: 10 },
@@ -37,6 +38,7 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
     const [ isGameStarted, setIsGameStarted ] = useState(false);
     const { resolvedTheme } = useTheme();
     const [ color, setColor ] = useState('#ffffff');
+    const [ isFlagMode, setIsFlagMode ] = useState(false);
 
     useEffect(() => {
         setColor(resolvedTheme === 'dark' ? '#ffffff' : '#000000');
@@ -212,6 +214,10 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                 return <Pyramid className='w-4 h-4 text-red-500' />;
             case 'radar':
                 return <Radar className='w-4 h-4 text-red-500' />;
+            case 'sparkles':
+                return <Sparkles className='w-4 h-4 text-red-500' />;
+            case 'sigma':
+                return <Sigma className='w-4 h-4 text-red-500' />;
             default:
                 return <Flag className='w-4 h-4 text-red-500' />;
         }
@@ -223,6 +229,10 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                 return <Skull className='w-4 h-4 text-red-500' />;
             case 'fire':
                 return <Flame className='w-4 h-4 text-red-500' />;
+            case 'flame':
+                return <FlameKindling className='w-4 h-4 text-red-500' />;
+            case 'ghost':
+                return <Ghost className='w-4 h-4 text-red-500' />;
             default:
                 return <Bomb className='w-4 h-4 text-red-500' />;
         }
@@ -274,8 +284,9 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
     return (
         <div className='min-h-screen bg-background p-4 flex items-center justify-center'>
             <Card className='max-w-fit mx-auto z-10'>
-                <CardHeader>
-                    <div className='flex items-center justify-between'>
+            <CardHeader>
+                <div className='flex items-center justify-between'>
+                    <div className='w-[30%]'>
                         <Button
                             variant='ghost'
                             size='icon'
@@ -283,10 +294,34 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                         >
                             <ArrowLeft className='h-4 w-4' />
                         </Button>
+                    </div>
+                    <div className='flex w-[40%] justify-center'>
                         <Timer
                             isRunning={isGameStarted && !gameOver && !gameWon}
                             onTimeUpdate={setTimeElapsed}
                         />
+                    </div>
+                    <div className='flex items-center justify-end gap-2 w-[30%]'>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant={isFlagMode ? 'default' : 'outline'} 
+                                        size='icon'
+                                        onClick={() => setIsFlagMode(!isFlagMode)}
+                                    >
+                                        {isFlagMode ? (
+                                            <Flag className={cn('w-4 h-4')} />
+                                        ) : (
+                                            <Shovel className={cn('w-4 h-4')} />
+                                        )}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{isFlagMode ? t('game.dig-mode') : t('game.flag-mode')}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -304,18 +339,19 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                             </Tooltip>
                         </TooltipProvider>
                     </div>
-                    <div className='flex justify-center items-center mt-2 gap-2'>
-                        <Badge variant='outline'>
-                            {t('game.mine')}: {mines - flagCount}
-                        </Badge>
-                        {gameOver && (
-                            <Badge variant='destructive'>{t('game.lose')}</Badge>
-                        )}
-                        {gameWon && (
-                            <Badge variant='default'>{t('game.win')}</Badge>
-                        )}
-                    </div>
-                </CardHeader>
+                </div>
+                <div className='flex justify-center items-center mt-2 gap-2'>
+                    <Badge variant='outline'>
+                        {t('game.mine')}: {mines - flagCount}
+                    </Badge>
+                    {gameOver && (
+                        <Badge variant='destructive'>{t('game.lose')}</Badge>
+                    )}
+                    {gameWon && (
+                        <Badge variant='default'>{t('game.win')}</Badge>
+                    )}
+                </div>
+            </CardHeader>
                 <CardContent>
                     <div 
                         className='grid gap-1 overflow-auto' 
@@ -331,10 +367,15 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                                     variant='secondary'
                                     size='icon'
                                     className={getCellClasses(cell)}
-                                    onClick={() => revealCell(rowIndex, colIndex)}
+                                    onClick={() => {
+                                        if (isFlagMode) {
+                                            toggleFlag(rowIndex, colIndex);
+                                        } else {
+                                            revealCell(rowIndex, colIndex);
+                                        }
+                                    }}
                                     onContextMenu={(e) => {
                                         e.preventDefault();
-                                        toggleFlag(rowIndex, colIndex);
                                     }}
                                 >
                                     {getCellContent(cell)}

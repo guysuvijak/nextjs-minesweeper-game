@@ -1,6 +1,6 @@
-export type Language = 'en' | 'th' | 'jp';
-export type FlagStyle = 'default' | 'triangle' | 'circle';
-export type BombStyle = 'default' | 'skull' | 'fire';
+export type Language = 'en' | 'th' | 'jp' | 'vi' | 'zh';
+export type FlagStyle = 'default' | 'triangle' | 'circle' | 'sparkles' | 'sigma';
+export type BombStyle = 'default' | 'skull' | 'fire' | 'flame' | 'ghost';
 export type NumberStyle = 'default' | 'roman' | 'thai';
 
 export interface GameSettings {

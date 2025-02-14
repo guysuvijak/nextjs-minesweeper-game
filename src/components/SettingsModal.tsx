@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Flag, Pyramid, Radar, Bomb, Skull, Flame, Moon, Sun } from 'lucide-react';
+import { Flag, Pyramid, Radar, Bomb, Skull, Flame, Moon, Sun, Ghost, FlameKindling, Sigma, Sparkles } from 'lucide-react';
 import { GameSettings, Language, FlagStyle, BombStyle, NumberStyle } from '@/types';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Label } from '@/components/ui/label';
@@ -68,6 +68,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                                 <SelectItem value='en'>{t('settings.language.en')}</SelectItem>
                                 <SelectItem value='th'>{t('settings.language.th')}</SelectItem>
                                 <SelectItem value='jp'>{t('settings.language.jp')}</SelectItem>
+                                <SelectItem value='vi'>{t('settings.language.vi')}</SelectItem>
+                                <SelectItem value='zh'>{t('settings.language.zh')}</SelectItem>
                             </SelectContent>
                         </Select>
 
@@ -88,6 +90,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                                 <SelectItem value='default'><Flag className='w-4 h-4 text-red-500' /></SelectItem>
                                 <SelectItem value='pyramid'><Pyramid className='w-4 h-4 text-red-500' /></SelectItem>
                                 <SelectItem value='radar'><Radar className='w-4 h-4 text-red-500' /></SelectItem>
+                                <SelectItem value='sparkles'><Sparkles className='w-4 h-4 text-red-500' /></SelectItem>
+                                <SelectItem value='sigma'><Sigma className='w-4 h-4 text-red-500' /></SelectItem>
                             </SelectContent>
                         </Select>
 
@@ -108,6 +112,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                                 <SelectItem value='default'><Bomb className='w-4 h-4 text-red-500' /></SelectItem>
                                 <SelectItem value='skull'><Skull className='w-4 h-4 text-red-500' /></SelectItem>
                                 <SelectItem value='fire'><Flame className='w-4 h-4 text-red-500' /></SelectItem>
+                                <SelectItem value='flame'><FlameKindling className='w-4 h-4 text-red-500' /></SelectItem>
+                                <SelectItem value='ghost'><Ghost className='w-4 h-4 text-red-500' /></SelectItem>
                             </SelectContent>
                         </Select>
 

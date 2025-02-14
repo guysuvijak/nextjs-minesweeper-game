@@ -39,7 +39,9 @@
         "mine": "地雷",
         "reset-tooltip": "リセット",
         "win": "あなたの勝ち!",
-        "lose": "ゲームオーバー!"
+        "lose": "ゲームオーバー!",
+        "flag-mode": "フラグモード",
+        "dig-mode": "ディグモード"
     },
     "settings": {
         "title": "設定",
@@ -55,7 +57,9 @@
             "title": "言語",
             "th": "Thai",
             "en": "English",
-            "jp": "日本語"
+            "jp": "日本語",
+            "vi": "Vietnamese",
+            "zh": "Chinese"
         },
         "flag": {
             "title": "旗"

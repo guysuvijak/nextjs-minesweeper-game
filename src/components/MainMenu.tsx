@@ -10,9 +10,11 @@ import { useTheme } from 'next-themes';
 import { Particles } from '@/components/magicui/particles';
 import { SparklesText } from '@/components/magicui/sparkles-text';
 import { ShimmerButton } from '@/components/magicui/shimmer-button';
+import { CustomDock } from '@/components/CustomDock';
+import { Difficulty } from '@/types';
 
 interface MainMenuProps {
-    onStartGame: (difficulty: 'easy' | 'medium' | 'hard') => void;
+    onStartGame: (difficulty: Difficulty) => void;
     onOpenSettings: () => void;
     language: Language;
     onShowLeaderboard: () => void;
@@ -20,7 +22,7 @@ interface MainMenuProps {
 
 export default function MainMenu({ onStartGame, onOpenSettings, language }: MainMenuProps) {
     const { t } = useTranslation(language);
-    const [ selectedDifficulty, setSelectedDifficulty ] = useState<'easy' | 'medium' | 'hard'>('easy');
+    const [ selectedDifficulty, setSelectedDifficulty ] = useState<Difficulty>('easy');
     const { resolvedTheme } = useTheme();
     const [ color, setColor ] = useState('#ffffff');
 
@@ -45,7 +47,7 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                         {t('mainmenu.difficulty.title')}
                     </CardDescription>
                 </CardHeader>
-                <CardContent className='space-y-6 p-6'>
+                <CardContent className='space-y-4 p-6'>
                     {/* Difficulty Selection */}
                     <div className='grid gap-3'>
                         {Object.entries(difficulties).map(([key, data]) => (
@@ -53,7 +55,7 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                                 key={key}
                                 variant={selectedDifficulty === key ? 'default' : 'outline'}
                                 className={cn(
-                                    'h-16 relative overflow-hidden group transition-all duration-200',
+                                    'h-12 sm:h-14 md:h-16 relative overflow-hidden group transition-all duration-200',
                                     selectedDifficulty === key 
                                         ? 'border-2 border-primary bg-primary/10 hover:bg-primary/20' 
                                         : 'hover:border-primary/50 hover:bg-muted'
@@ -102,7 +104,7 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                         <div className='grid grid-cols-2 gap-3'>
                             <Button 
                                 variant='outline'
-                                className='flex items-center justify-center gap-2 h-12'
+                                className='flex items-center justify-center gap-2 h-9 sm:h-12'
                                 onClick={onOpenSettings}
                             >
                                 <Settings className='w-4 h-4' />
@@ -111,7 +113,7 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                             
                             <Button 
                                 variant='outline'
-                                className='flex items-center justify-center gap-2 h-12'
+                                className='flex items-center justify-center gap-2 h-9 sm:h-12'
                                 disabled
                             >
                                 <Trophy className='w-4 h-4' />
@@ -121,8 +123,9 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                     </div>
 
                     {/* Game Info */}
-                    <div className='pt-2 text-center text-sm text-muted-foreground'>
+                    <div className='text-center text-sm text-muted-foreground'>
                         <p>{t('mainmenu.description')}</p>
+                        <CustomDock />
                     </div>
                 </CardContent>
             </Card>

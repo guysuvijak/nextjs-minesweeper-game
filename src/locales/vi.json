@@ -1,0 +1,77 @@
+{
+    "common": {
+        "lang": "vi",
+        "game-title": "Dò Mìn"
+    },
+    "difficulty": {
+        "easy": "Dễ",
+        "medium": "Trung bình", 
+        "hard": "Khó"
+    },
+    "gameStats": {
+        "timePlayed": "Thời gian chơi",
+        "flagsPlaced": "Cờ đã đặt",
+        "difficulty": "Độ khó"
+    },
+    "gameresult": {
+        "win": "Bạn đã thắng!",
+        "lose": "Trò chơi kết thúc!",
+        "time": "Thời gian",
+        "score": "Điểm số",
+        "difficulty": "Độ khó",
+        "flag": "Cờ đã đặt",
+        "share-button": "Chia sẻ",
+        "back-button": "Về Menu chính"
+    },
+    "mainmenu": {
+        "description": "Tạo bởi MeteorVIIx",
+        "playgame": "Bắt đầu",
+        "settings": "Cài đặt",
+        "leaderboard": "Bảng xếp hạng",
+        "difficulty": {
+            "title": "Chọn độ khó",
+            "easy": "Dễ",
+            "medium": "Trung bình",
+            "hard": "Khó"
+        }
+    },
+    "game": {
+        "mine": "Mìn",
+        "reset-tooltip": "Chơi lại",
+        "win": "Bạn đã thắng!",
+        "lose": "Trò chơi kết thúc!",
+        "flag-mode": "Chế độ gắn cờ",
+        "dig-mode": "Chế độ đào"
+    },
+    "settings": {
+        "title": "Cài đặt",
+        "cancel-button": "Hủy",
+        "save-button": "Lưu thay đổi",
+        "theme": {
+            "title": "Giao diện",
+            "system": "Hệ thống",
+            "light": "Sáng",
+            "dark": "Tối"
+        },
+        "language": {
+            "title": "Ngôn ngữ",
+            "th": "Thai",
+            "en": "English",
+            "jp": "Japanese",
+            "vi": "Tiếng Việt",
+            "zh": "Chinese"
+        },
+        "flag": {
+            "title": "Cờ"
+        },
+        "bomb": {
+            "title": "Mìn"
+        },
+        "number": {
+            "title": "Số",
+            "default": "(1) Thường",
+            "roman": "(I) La Mã",
+            "thai": "(๑) Thái"
+        }
+    }
+}

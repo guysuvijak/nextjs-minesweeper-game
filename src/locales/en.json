@@ -39,7 +39,9 @@
         "mine": "Mines",
         "reset-tooltip": "Reset",
         "win": "You Win!",
-        "lose": "Game Over!"
+        "lose": "Game Over!",
+        "flag-mode": "Flag Mode",
+        "dig-mode": "Dig Mode"
     },
     "settings": {
         "title": "Settings",
@@ -55,7 +57,9 @@
             "title": "Languages",
             "th": "Thai",
             "en": "English",
-            "jp": "Japanese"
+            "jp": "Japanese",
+            "vi": "Vietnamese",
+            "zh": "Chinese"
         },
         "flag": {
             "title": "Flag"

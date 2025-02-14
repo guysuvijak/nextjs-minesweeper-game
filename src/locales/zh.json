@@ -1,0 +1,77 @@
+{
+    "common": {
+        "lang": "zh",
+        "game-title": "扫雷"
+    },
+    "difficulty": {
+        "easy": "简单",
+        "medium": "中等",
+        "hard": "困难"
+    },
+    "gameStats": {
+        "timePlayed": "游戏时间",
+        "flagsPlaced": "已插旗数",
+        "difficulty": "难度"
+    },
+    "gameresult": {
+        "win": "胜利！",
+        "lose": "游戏结束！",
+        "time": "时间",
+        "score": "得分",
+        "difficulty": "难度",
+        "flag": "已插旗数",
+        "share-button": "分享",
+        "back-button": "返回主菜单"
+    },
+    "mainmenu": {
+        "description": "由 MeteorVIIx 制作",
+        "playgame": "开始游戏",
+        "settings": "设置",
+        "leaderboard": "排行榜",
+        "difficulty": {
+            "title": "选择难度",
+            "easy": "简单",
+            "medium": "中等",
+            "hard": "困难"
+        }
+    },
+    "game": {
+        "mine": "地雷",
+        "reset-tooltip": "重新开始",
+        "win": "胜利！",
+        "lose": "游戏结束！",
+        "flag-mode": "标志模式",
+        "dig-mode": "挖掘模式"
+    },
+    "settings": {
+        "title": "设置",
+        "cancel-button": "取消",
+        "save-button": "保存更改",
+        "theme": {
+            "title": "主题",
+            "system": "系统",
+            "light": "浅色",
+            "dark": "深色"
+        },
+        "language": {
+            "title": "语言",
+            "th": "Thai",
+            "en": "English",
+            "jp": "Japanese",
+            "vi": "Vietnamese",
+            "zh": "中文"
+        },
+        "flag": {
+            "title": "旗帜"
+        },
+        "bomb": {
+            "title": "地雷"
+        },
+        "number": {
+            "title": "数字",
+            "default": "(1) 普通",
+            "roman": "(I) 罗马",
+            "thai": "(๑) 泰文"
+        }
+    }
+}
