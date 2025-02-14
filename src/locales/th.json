@@ -1,0 +1,72 @@
+{
+    "common": {
+        "lang": "th",
+        "game-title": "เกมกู้ระเบิด"
+    },
+    "difficulty": {
+        "easy": "ง่าย",
+        "medium": "ปานกลาง",
+        "hard": "ยาก"
+    },
+    "gameStats": {
+        "timePlayed": "เวลาที่เล่น",
+        "flagsPlaced": "จำนวนธง",
+        "difficulty": "ระดับความยาก"
+    },
+    "gameresult": {
+        "win": "คุณชนะ!",
+        "lose": "จบเกม!",
+        "time": "เวลา",
+        "score": "คะแนน",
+        "difficulty": "ระดับความยาก",
+        "flag": "จำนวนธง",
+        "share-button": "แชร์",
+        "again-button": "เล่นอีกครั้ง"
+    },
+    "mainmenu": {
+        "description": "สร้างโดย MeteorVIIx",
+        "playgame": "เริ่มเกม",
+        "settings": "ตั้งค่า",
+        "leaderboard": "ตารางคะแนน",
+        "difficulty": {
+            "title": "เลือกระดับความยาก",
+            "easy": "ง่าย",
+            "medium": "ปานกลาง",
+            "hard": "ยาก"
+        }
+    },
+    "game": {
+        "mine": "ระเบิด",
+        "reset-tooltip": "เริ่มใหม่",
+        "win": "คุณชนะ!",
+        "lose": "จบเกม!"
+    },
+    "settings": {
+        "title": "การตั้งค่า",
+        "cancel-button": "ยกเลิก",
+        "save-button": "บันทึกการเปลี่ยนแปลง",
+        "theme": {
+            "title": "ธีม",
+            "light": "สว่าง",
+            "dark": "มืด"
+        },
+        "language": {
+            "title": "ภาษา",
+            "th": "ไทย",
+            "en": "English",
+            "jp": "Japanese"
+        },
+        "flag": {
+            "title": "ธง"
+        },
+        "bomb": {
+            "title": "ระเบิด"
+        },
+        "number": {
+            "title": "ตัวเลข",
+            "default": "(1) ปกติ",
+            "roman": "(I) โรมัน",
+            "thai": "(๑) ไทย"
+        }
+    }
+}

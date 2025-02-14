@@ -1,0 +1,72 @@
+{
+    "common": {
+        "lang": "en",
+        "game-title": "Minesweeper"
+    },
+    "difficulty": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+    },
+    "gameStats": {
+        "timePlayed": "Time Played",
+        "flagsPlaced": "Flags Placed",
+        "difficulty": "Difficulty"
+    },
+    "gameresult": {
+        "win": "You Win!",
+        "lose": "Game Over!",
+        "time": "Time",
+        "score": "Score",
+        "difficulty": "Difficulty",
+        "flag": "Flag Placed",
+        "share-button": "Share",
+        "again-button": "Play Again"
+    },
+    "mainmenu": {
+        "description": "Create by MeteorVIIx",
+        "playgame": "Start Game",
+        "settings": "Settings",
+        "leaderboard": "Leaderboard",
+        "difficulty": {
+            "title": "Select Difficulty",
+            "easy": "Easy",
+            "medium": "Medium",
+            "hard": "Hard"
+        }
+    },
+    "game": {
+        "mine": "Mines",
+        "reset-tooltip": "Reset",
+        "win": "You Win!",
+        "lose": "Game Over!"
+    },
+    "settings": {
+        "title": "Settings",
+        "cancel-button": "Cancel",
+        "save-button": "Save changes",
+        "theme": {
+            "title": "Theme",
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "language": {
+            "title": "Languages",
+            "th": "Thai",
+            "en": "English",
+            "jp": "Japanese"
+        },
+        "flag": {
+            "title": "Flag"
+        },
+        "bomb": {
+            "title": "Bomb"
+        },
+        "number": {
+            "title": "Number",
+            "default": "(1) Normal",
+            "roman": "(I) Roman",
+            "thai": "(๑) Thai"
+        }
+    }
+}
