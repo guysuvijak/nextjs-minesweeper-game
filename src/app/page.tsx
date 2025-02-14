@@ -1,101 +1,339 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Peer, DataConnection } from 'peerjs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+
+const MATCHMAKING_KEY = 'xo_game_matchmaking';
+
+interface GameState {
+  board: string[];
+  currentTurn: string;
+  mySymbol: string;
+  winner: string | null;
+  isDraw: boolean;
+  readyToRestart: boolean;
+}
+
+interface GameMove {
+  type: 'MOVE' | 'RESTART_REQUEST';
+  index?: number;
+}
+
+const WINNING_COMBINATIONS = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+  [0, 4, 8], [2, 4, 6] // Diagonals
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [peerId, setPeerId] = useState('');
+  const [peer, setPeer] = useState<Peer | null>(null);
+  const [connection, setConnection] = useState<DataConnection | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [opponentId, setOpponentId] = useState('');
+  const [error, setError] = useState('');
+  const [opponentReadyToRestart, setOpponentReadyToRestart] = useState(false);
+  
+  const [gameState, setGameState] = useState<GameState>({
+    board: Array(9).fill(''),
+    currentTurn: '',
+    mySymbol: '',
+    winner: null,
+    isDraw: false,
+    readyToRestart: false
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const checkWinner = (board: string[]): string | null => {
+    for (const [a, b, c] of WINNING_COMBINATIONS) {
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return board[a];
+      }
+    }
+    return null;
+  };
+
+  const checkDraw = (board: string[]): boolean => {
+    return board.every(cell => cell !== '') && !checkWinner(board);
+  };
+
+  useEffect(() => {
+    const initPeer = () => {
+      try {
+        const newPeer = new Peer({
+          host: 'localhost',
+          port: 9000,
+          path: '/myapp',
+          debug: 3
+        });
+
+        newPeer.on('open', (id) => {
+          setPeerId(id);
+          localStorage.setItem(MATCHMAKING_KEY, JSON.stringify([]));
+        });
+
+        newPeer.on('connection', handleConnection);
+        newPeer.on('error', handleError);
+
+        setPeer(newPeer);
+
+        return () => {
+          removeFromMatchmaking();
+          newPeer.destroy();
+        };
+      } catch (err) {
+        setError('Failed to initialize peer connection');
+        console.error(err);
+      }
+    };
+
+    initPeer();
+  }, []);
+
+  const handleConnection = (conn: DataConnection) => {
+    setConnection(conn);
+    setOpponentId(conn.peer);
+    setIsSearching(false);
+    removeFromMatchmaking();
+
+    const isStarter = Math.random() < 0.5;
+    const mySymbol = isStarter ? 'X' : 'O';
+    
+    setGameState({
+      board: Array(9).fill(''),
+      currentTurn: 'X',
+      mySymbol,
+      winner: null,
+      isDraw: false,
+      readyToRestart: false
+    });
+
+    conn.on('data', (data: GameMove) => {
+      if (data.type === 'MOVE' && typeof data.index === 'number') {
+        setGameState(prev => {
+          const newBoard = [...prev.board];
+          newBoard[data.index as number] = prev.mySymbol === 'X' ? 'O' : 'X';
+          
+          const winner = checkWinner(newBoard);
+          const isDraw = checkDraw(newBoard);
+
+          return {
+            ...prev,
+            board: newBoard,
+            currentTurn: prev.mySymbol,
+            winner,
+            isDraw
+          };
+        });
+      } else if (data.type === 'RESTART_REQUEST') {
+        setOpponentReadyToRestart(true);
+      }
+    });
+
+    conn.on('close', () => {
+      setConnection(null);
+      setOpponentId('');
+      setOpponentReadyToRestart(false);
+      setGameState({
+        board: Array(9).fill(''),
+        currentTurn: '',
+        mySymbol: '',
+        winner: null,
+        isDraw: false,
+        readyToRestart: false
+      });
+    });
+  };
+
+  const handleError = (err: Error) => {
+    setError(err.message);
+    setIsSearching(false);
+    removeFromMatchmaking();
+  };
+
+  const removeFromMatchmaking = () => {
+    try {
+      const currentPool = JSON.parse(localStorage.getItem(MATCHMAKING_KEY) || '[]');
+      const updated = currentPool.filter((id: string) => id !== peerId);
+      localStorage.setItem(MATCHMAKING_KEY, JSON.stringify(updated));
+    } catch (err) {
+      console.error('Error removing from matchmaking:', err);
+    }
+  };
+
+  const startMatchmaking = async () => {
+    if (!peer || isSearching) return;
+
+    setIsSearching(true);
+    setError('');
+
+    try {
+      const currentPool = JSON.parse(localStorage.getItem(MATCHMAKING_KEY) || '[]');
+      const availablePeers = currentPool.filter((id: string) => id !== peerId);
+
+      if (availablePeers.length > 0) {
+        const opponent = availablePeers[0];
+        const conn = peer.connect(opponent, { reliable: true });
+
+        conn.on('open', () => {
+          handleConnection(conn);
+        });
+
+        conn.on('error', () => {
+          const remaining = availablePeers.filter(id => id !== opponent);
+          localStorage.setItem(MATCHMAKING_KEY, JSON.stringify(remaining));
+          setError('Connection failed, retrying...');
+          startMatchmaking();
+        });
+      } else {
+        localStorage.setItem(MATCHMAKING_KEY, JSON.stringify([peerId]));
+      }
+    } catch (err) {
+      setError('Matchmaking failed');
+      setIsSearching(false);
+    }
+  };
+
+  const handleMove = (index: number) => {
+    if (!connection || 
+        gameState.board[index] !== '' || 
+        gameState.currentTurn !== gameState.mySymbol || 
+        gameState.winner || 
+        gameState.isDraw) return;
+
+    const newBoard = [...gameState.board];
+    newBoard[index] = gameState.mySymbol;
+
+    const winner = checkWinner(newBoard);
+    const isDraw = checkDraw(newBoard);
+
+    setGameState(prev => ({
+      ...prev,
+      board: newBoard,
+      currentTurn: prev.mySymbol === 'X' ? 'O' : 'X',
+      winner,
+      isDraw
+    }));
+
+    connection.send({ type: 'MOVE', index });
+  };
+
+  const requestRestart = () => {
+    if (!connection) return;
+    
+    setGameState(prev => ({ ...prev, readyToRestart: true }));
+    connection.send({ type: 'RESTART_REQUEST' });
+  };
+
+  const cancelMatchmaking = () => {
+    setIsSearching(false);
+    removeFromMatchmaking();
+  };
+
+  const canRestart = gameState.readyToRestart && opponentReadyToRestart;
+  const isGameOver = gameState.winner || gameState.isDraw;
+
+  return (
+    <div className='min-h-screen bg-gray-50 p-8'>
+      <Card className='max-w-md mx-auto'>
+        <CardHeader>
+          <CardTitle className='text-center'>XO Game</CardTitle>
+        </CardHeader>
+        
+        <CardContent className='space-y-4'>
+          {!connection ? (
+            <>
+              <div className='flex items-center justify-between'>
+                <span className='text-sm text-gray-500'>Your ID:</span>
+                <Badge variant='secondary' className='font-mono'>{peerId}</Badge>
+              </div>
+              
+              {error && (
+                <Alert variant='destructive'>
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
+              <Button
+                className='w-full'
+                onClick={isSearching ? cancelMatchmaking : startMatchmaking}
+                disabled={!peer}
+              >
+                {isSearching ? 'Cancel Search' : 'Find Match'}
+              </Button>
+              
+              {isSearching && (
+                <p className='text-sm animate-pulse text-center text-gray-500'>
+                  Searching for players...
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <div className='text-center space-y-2 mb-4'>
+                <Badge variant='outline' className='mb-2'>
+                  Playing as: {gameState.mySymbol}
+                </Badge>
+                
+                {!isGameOver && (
+                  <Alert>
+                    <AlertDescription>
+                      {gameState.currentTurn === gameState.mySymbol ? 
+                        'Your turn' : 'Opponent turn'}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {gameState.winner && (
+                  <Alert variant={gameState.winner === gameState.mySymbol ? 'default' : 'destructive'}>
+                    <AlertDescription>
+                      {gameState.winner === gameState.mySymbol ? 'You won!' : 'Opponent won!'}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {gameState.isDraw && (
+                  <Alert>
+                    <AlertDescription>Game is a draw!</AlertDescription>
+                  </Alert>
+                )}
+              </div>
+              
+              <div className='grid grid-cols-3 gap-2 mb-4'>
+                {gameState.board.map((cell, index) => (
+                  <Button
+                    key={index}
+                    variant={cell ? 'secondary' : 'outline'}
+                    className='h-20 text-2xl font-bold'
+                    onClick={() => handleMove(index)}
+                    disabled={cell !== '' || 
+                             gameState.currentTurn !== gameState.mySymbol ||
+                             isGameOver}
+                  >
+                    {cell}
+                  </Button>
+                ))}
+              </div>
+
+              {isGameOver && (
+                <div className='text-center'>
+                  <Button
+                    onClick={requestRestart}
+                    disabled={gameState.readyToRestart}
+                  >
+                    {canRestart ? 'Starting new game...' :
+                     gameState.readyToRestart ? 'Waiting for opponent...' :
+                     'Play Again'}
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
