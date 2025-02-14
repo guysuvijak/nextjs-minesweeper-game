@@ -20,7 +20,7 @@ interface GameState {
 
 interface GameMove {
   type: 'MOVE' | 'RESTART_REQUEST';
-  index?: number;
+  index: number;
 }
 
 const WINNING_COMBINATIONS = [
@@ -37,6 +37,7 @@ export default function Home() {
   const [opponentId, setOpponentId] = useState('');
   const [error, setError] = useState('');
   const [opponentReadyToRestart, setOpponentReadyToRestart] = useState(false);
+  console.log(opponentId)
   
   const [gameState, setGameState] = useState<GameState>({
     board: Array(9).fill(''),
@@ -63,10 +64,14 @@ export default function Home() {
   useEffect(() => {
     const initPeer = () => {
       try {
+        //const newPeer = new Peer({
+        //  host: 'localhost',
+        //  port: 9000,
+        //  path: '/myapp',
+        //  debug: 3
+        //});
+
         const newPeer = new Peer({
-          host: 'localhost',
-          port: 9000,
-          path: '/myapp',
           debug: 3
         });
 
@@ -91,14 +96,9 @@ export default function Home() {
     };
 
     initPeer();
-  }, []);
+  });
 
-  const handleConnection = (conn: DataConnection) => {
-    setConnection(conn);
-    setOpponentId(conn.peer);
-    setIsSearching(false);
-    removeFromMatchmaking();
-
+  const startNewGame = () => {
     const isStarter = Math.random() < 0.5;
     const mySymbol = isStarter ? 'X' : 'O';
     
@@ -110,16 +110,37 @@ export default function Home() {
       isDraw: false,
       readyToRestart: false
     });
+    setOpponentReadyToRestart(false);
+  };
 
-    conn.on('data', (data: GameMove) => {
+  const handleConnection = (conn: DataConnection) => {
+    setConnection(conn);
+    setOpponentId(conn.peer);
+    setIsSearching(false);
+    removeFromMatchmaking();
+
+    startNewGame();
+
+    function isGameMove(data: unknown): data is GameMove {
+      if (!data || typeof data !== 'object') return false;
+      const move = data as Record<string, unknown>;
+      return (
+        (move.type === 'MOVE' || move.type === 'RESTART_REQUEST') &&
+        (move.index === undefined || typeof move.index === 'number')
+      );
+    }
+
+    conn.on('data', (data: unknown) => {
+      if (!isGameMove(data)) return;
+      
       if (data.type === 'MOVE' && typeof data.index === 'number') {
         setGameState(prev => {
           const newBoard = [...prev.board];
-          newBoard[data.index as number] = prev.mySymbol === 'X' ? 'O' : 'X';
+          newBoard[data.index] = prev.mySymbol === 'X' ? 'O' : 'X';
           
           const winner = checkWinner(newBoard);
           const isDraw = checkDraw(newBoard);
-
+    
           return {
             ...prev,
             board: newBoard,
@@ -130,6 +151,10 @@ export default function Home() {
         });
       } else if (data.type === 'RESTART_REQUEST') {
         setOpponentReadyToRestart(true);
+        
+        if (gameState.readyToRestart) {
+          startNewGame();
+        }
       }
     });
 
@@ -183,7 +208,7 @@ export default function Home() {
         });
 
         conn.on('error', () => {
-          const remaining = availablePeers.filter(id => id !== opponent);
+          const remaining = availablePeers.filter((id: string) => id !== opponent);
           localStorage.setItem(MATCHMAKING_KEY, JSON.stringify(remaining));
           setError('Connection failed, retrying...');
           startMatchmaking();
@@ -192,7 +217,7 @@ export default function Home() {
         localStorage.setItem(MATCHMAKING_KEY, JSON.stringify([peerId]));
       }
     } catch (err) {
-      setError('Matchmaking failed');
+      setError('Matchmaking failed' + err);
       setIsSearching(false);
     }
   };
@@ -226,6 +251,11 @@ export default function Home() {
     
     setGameState(prev => ({ ...prev, readyToRestart: true }));
     connection.send({ type: 'RESTART_REQUEST' });
+
+    // If opponent is already ready, start new game
+    if (opponentReadyToRestart) {
+      startNewGame();
+    }
   };
 
   const cancelMatchmaking = () => {
@@ -311,7 +341,7 @@ export default function Home() {
                     onClick={() => handleMove(index)}
                     disabled={cell !== '' || 
                              gameState.currentTurn !== gameState.mySymbol ||
-                             isGameOver}
+                             isGameOver as boolean}
                   >
                     {cell}
                   </Button>
