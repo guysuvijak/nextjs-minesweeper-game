@@ -21,7 +21,7 @@
         "difficulty": "Difficulty",
         "flag": "Flag Placed",
         "share-button": "Share",
-        "again-button": "Back Mainmenu"
+        "back-button": "Back Mainmenu"
     },
     "mainmenu": {
         "description": "Create by MeteorVIIx",

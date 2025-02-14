@@ -12,10 +12,10 @@ interface GameOverModalProps {
     onClose: () => void;
     stats: GameStats;
     language: Language;
-    onPlayAgain: () => void;
+    onBackMenu: () => void;
 };
 
-export function GameResultModal({ isOpen, onClose, stats, language, onPlayAgain }: GameOverModalProps) {
+export function GameResultModal({ isOpen, onClose, stats, language, onBackMenu }: GameOverModalProps) {
     const { t } = useTranslation(language);
     const confettiRef = useRef<ConfettiRef>(null);
 
@@ -58,7 +58,7 @@ export function GameResultModal({ isOpen, onClose, stats, language, onPlayAgain 
                 </div>
                 <div className='flex justify-end space-x-2 z-30'>
                     <Button onClick={handleShare}>{t('gameresult.share-button')}</Button>
-                    <Button onClick={onPlayAgain}>{t('gameresult.again-button')}</Button>
+                    <Button onClick={onBackMenu}>{t('gameresult.back-button')}</Button>
                 </div>
                 {stats.score > 0 &&
                     <Confetti

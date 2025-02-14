@@ -10,6 +10,7 @@ import type { Difficulty } from '@/types';
 export default function Home() {
     const [ showGame, setShowGame ] = useState(false);
     const [ showSettings, setShowSettings ] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [ showLeaderboard, setShowLeaderboard ] = useState(false);
     const [ showGameOver, setShowGameOver ] = useState(false);
     const [ gameStats, setGameStats]  = useState<GameStats | null>(null);
@@ -20,7 +21,6 @@ export default function Home() {
         bombIcon: 'default',
         numberStyle: 'default'
     });
-    console.log(showLeaderboard)
 
     const handleStartGame = (selectedDifficulty: Difficulty) => {
         setDifficulty(selectedDifficulty);
@@ -32,7 +32,7 @@ export default function Home() {
         setShowGameOver(true);
     };
 
-    const handlePlayAgain = () => {
+    const handleBackMenu = () => {
         setShowGameOver(false);
         setShowGame(false);
     };
@@ -57,6 +57,7 @@ export default function Home() {
                     difficulty={difficulty}
                     language={settings.language}
                     onGameOver={handleGameOver}
+                    onBackMenu={handleBackMenu}
                 />
             )}
 
@@ -73,7 +74,7 @@ export default function Home() {
                     onClose={() => setShowGameOver(false)}
                     stats={gameStats}
                     language={settings.language}
-                    onPlayAgain={handlePlayAgain}
+                    onBackMenu={handleBackMenu}
                 />
             )}
         </>

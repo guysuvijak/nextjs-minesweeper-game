@@ -1,9 +1,9 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useCallback, useEffect, useState, useRef } from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Flag, RotateCcw, Bomb, Pyramid, Radar, Skull, Flame } from 'lucide-react';
+import { Flag, RotateCcw, Bomb, Pyramid, Radar, Skull, Flame, ArrowLeft } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { GameSettings, GameStats, Difficulty, Cell } from '@/types';
 import { Timer } from '@/components/Timer';
@@ -20,11 +20,12 @@ const DIFFICULTIES = {
 interface MinesweeperProps {
     settings: GameSettings;
     difficulty: Difficulty;
-        language: Language;
+    language: Language;
     onGameOver: (stats: GameStats) => void;
+    onBackMenu: () => void;
 };
 
-export default function Minesweeper({ settings, difficulty: initialDifficulty, language, onGameOver }: MinesweeperProps) {
+export default function Minesweeper({ settings, difficulty: initialDifficulty, language, onGameOver, onBackMenu }: MinesweeperProps) {
     const { t } = useTranslation(language);
     const [ difficulty ] = useState<Difficulty>(initialDifficulty);
     const [ board, setBoard ] = useState<Cell[][]>([]);
@@ -41,24 +42,50 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
         setColor(resolvedTheme === 'dark' ? '#ffffff' : '#000000');
     }, [resolvedTheme]);
 
-    const calculateScore = useCallback(() => {
-        const baseScore = 1000;
-        const timeMultiplier = Math.max(1, (300 - timeElapsed) / 300);
-        const difficultyMultiplier = {
+    const scoreConfigRef = useRef({
+        baseScore: 1000,
+        maxTime: 300,
+        multipliers: {
             easy: 1,
             medium: 2,
             hard: 3
-        }[difficulty];
-        
-        const flagAccuracyBonus = flagCount === mines ? 1.5 : 1;
-    
+        },
+        flagBonus: 1.5
+    });
+
+    const calculateScore = useCallback(() => {
+        const config = scoreConfigRef.current;
+        const timeMultiplier = Math.max(1, (config.maxTime - timeElapsed) / config.maxTime);
+        const difficultyMultiplier = config.multipliers[difficulty];
+        const flagAccuracyBonus = flagCount === mines ? config.flagBonus : 1;
+
         return Math.floor(
-            baseScore * 
+            config.baseScore * 
             timeMultiplier * 
             difficultyMultiplier * 
             flagAccuracyBonus
         );
-    }, [timeElapsed, difficulty, flagCount, mines]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleGameOver = useCallback(() => {
+        if (gameOver || gameWon) {
+            setIsGameStarted(false);
+            onGameOver({
+                time: timeElapsed,
+                difficulty,
+                flagsPlaced: flagCount,
+                score: gameWon ? calculateScore() : 0
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameOver, gameWon, onGameOver, calculateScore]);
+
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        handleGameOver();
+    }, [gameOver, gameWon]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
     const initializeBoard = useCallback(() => {
         const newBoard: Cell[][] = Array(rows).fill(null).map(() =>
@@ -101,18 +128,6 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
         setGameWon(false);
         setFlagCount(0);
     }, [rows, cols, mines]);
-
-    useEffect(() => {
-        if (gameOver || gameWon) {
-            setIsGameStarted(false);
-            onGameOver({
-                time: timeElapsed,
-                difficulty,
-                flagsPlaced: flagCount,
-                score: gameWon ? calculateScore() : 0
-            });
-        }
-    }, [gameOver, gameWon, timeElapsed, difficulty, flagCount, onGameOver, calculateScore]);
 
     useEffect(() => {
         initializeBoard();
@@ -187,19 +202,8 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
         if (cell.isMine) {
             return getBombIcon(settings.bombIcon);
         }
-      
+        
         return getNumberDisplay(cell.neighborMines, settings.numberStyle);
-    };
-
-    const getCellColor = (cell: Cell) => {
-        if (!cell.isRevealed) {
-            return 'bg-secondary hover:bg-secondary/80';
-        }
-        if (cell.isMine) {
-            return 'bg-red-100';
-        }
-
-        return 'bg-background';
     };
 
     const getFlagIcon = (style: React.ReactNode) => {
@@ -212,7 +216,7 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                 return <Flag className='w-4 h-4 text-red-500' />;
         }
     };
-      
+        
     const getBombIcon = (style: React.ReactNode) => {
         switch (style) {
             case 'skull':
@@ -223,10 +227,10 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                 return <Bomb className='w-4 h-4 text-red-500' />;
         }
     };
-      
+        
     const getNumberDisplay = (number: number, style: React.ReactNode) => {
         if (number === 0) return null;
-      
+        
         switch (style) {
             case 'roman':
                 const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
@@ -240,24 +244,31 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
     };
 
     const getCellClasses = (cell: Cell) => {
-        const baseClasses = `w-8 h-8 p-0 text-sm font-bold ${getCellColor(cell)}`;
-        
+        const baseStyles = [
+            'w-8 h-8 p-0 text-sm font-bold',
+            cell.isRevealed ? 'cursor-default' : 'cursor-pointer',
+            !cell.isRevealed ? 'bg-secondary hover:bg-secondary/80' : '',
+            cell.isMine && cell.isRevealed ? 'bg-red-100' : '',
+            cell.isRevealed && !cell.isMine ? 'bg-background' : '',
+            'select-none'
+        ].filter(Boolean).join(' ');
+    
         if (!cell.isRevealed || cell.isMine || cell.isFlagged) {
-            return baseClasses;
+            return baseStyles;
         }
-        
+    
         const numberColors = [
-          'text-blue-500',   // 1
-          'text-green-500',  // 2
-          'text-red-500',    // 3
-          'text-purple-500', // 4
-          'text-yellow-500', // 5
-          'text-pink-500',   // 6
-          'text-teal-500',   // 7
-          'text-gray-500'    // 8
+            'text-blue-500',   // 1
+            'text-green-500',  // 2
+            'text-red-500',    // 3
+            'text-purple-500', // 4
+            'text-yellow-500', // 5
+            'text-pink-500',   // 6
+            'text-teal-500',   // 7
+            'text-gray-500'    // 8
         ];
-      
-        return `${baseClasses} ${numberColors[cell.neighborMines - 1] || ''}`;
+    
+        return `${baseStyles} ${numberColors[cell.neighborMines - 1] || ''}`;
     };
 
     return (
@@ -265,31 +276,35 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
             <Card className='max-w-fit mx-auto z-10'>
                 <CardHeader>
                     <div className='flex items-center justify-between'>
-                        <CardTitle>{t('common.game-title')}</CardTitle>
-                        <div className='flex items-center gap-4'>
-                            <Timer 
-                                isRunning={isGameStarted && !gameOver && !gameWon}
-                                onTimeUpdate={setTimeElapsed}
-                            />
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant='outline' 
-                                            size='icon'
-                                            onClick={initializeBoard}
-                                        >
-                                            <RotateCcw className='w-4 h-4' />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('game.reset-tooltip')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </div>
+                        <Button
+                            variant='ghost'
+                            size='icon'
+                            onClick={onBackMenu}
+                        >
+                            <ArrowLeft className='h-4 w-4' />
+                        </Button>
+                        <Timer
+                            isRunning={isGameStarted && !gameOver && !gameWon}
+                            onTimeUpdate={setTimeElapsed}
+                        />
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant='outline' 
+                                        size='icon'
+                                        onClick={initializeBoard}
+                                    >
+                                        <RotateCcw className='w-4 h-4' />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{t('game.reset-tooltip')}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
-                    <div className='flex justify-between items-center mt-2'>
+                    <div className='flex justify-center items-center mt-2 gap-2'>
                         <Badge variant='outline'>
                             {t('game.mine')}: {mines - flagCount}
                         </Badge>
@@ -303,8 +318,11 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                 </CardHeader>
                 <CardContent>
                     <div 
-                        className='grid gap-1' 
-                        style={{gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`}}
+                        className='grid gap-1 overflow-auto' 
+                        style={{
+                            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+                            maxWidth: '100%'
+                        }}
                     >
                         {board.map((row, rowIndex) =>
                             row.map((cell, colIndex) => (

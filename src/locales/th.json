@@ -21,7 +21,7 @@
         "difficulty": "ระดับความยาก",
         "flag": "จำนวนธง",
         "share-button": "แชร์",
-        "again-button": "กลับหน้าแรก"
+        "back-button": "กลับหน้าแรก"
     },
     "mainmenu": {
         "description": "สร้างโดย MeteorVIIx",
