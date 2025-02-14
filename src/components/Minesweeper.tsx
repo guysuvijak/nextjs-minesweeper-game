@@ -41,7 +41,7 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
         setColor(resolvedTheme === 'dark' ? '#ffffff' : '#000000');
     }, [resolvedTheme]);
 
-    const calculateScore = () => {
+    const calculateScore = useCallback(() => {
         const baseScore = 1000;
         const timeMultiplier = Math.max(1, (300 - timeElapsed) / 300);
         const difficultyMultiplier = {
@@ -51,14 +51,14 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
         }[difficulty];
         
         const flagAccuracyBonus = flagCount === mines ? 1.5 : 1;
-
+    
         return Math.floor(
             baseScore * 
             timeMultiplier * 
             difficultyMultiplier * 
             flagAccuracyBonus
         );
-    };
+    }, [timeElapsed, difficulty, flagCount, mines]);
 
     const initializeBoard = useCallback(() => {
         const newBoard: Cell[][] = Array(rows).fill(null).map(() =>
@@ -112,7 +112,7 @@ export default function Minesweeper({ settings, difficulty: initialDifficulty, l
                 score: gameWon ? calculateScore() : 0
             });
         }
-    }, [gameOver, gameWon]);
+    }, [gameOver, gameWon, timeElapsed, difficulty, flagCount, onGameOver, calculateScore]);
 
     useEffect(() => {
         initializeBoard();
