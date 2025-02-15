@@ -33,7 +33,6 @@ export const Minesweeper = ({ settings, difficulty: initialDifficulty, language,
     const [ isGameStarted, setIsGameStarted ] = useState(false);
     const { resolvedTheme } = useTheme();
     const [ color, setColor ] = useState('#FFFFFF');
-    const [ colorData ] = useState(NUMBER_COLORS);
     const [ isFlagMode, setIsFlagMode ] = useState(false);
 
     useEffect(() => {
@@ -258,7 +257,11 @@ export const Minesweeper = ({ settings, difficulty: initialDifficulty, language,
         );
     
         if (!cell.isRevealed || cell.isMine || cell.isFlagged) return baseStyles;
-        if (cell.neighborMines > 0) return cn(baseStyles, colorData[cell.neighborMines - 1]);
+        console.log(cell.neighborMines)
+        if (cell.neighborMines > 0) {
+            const numberColor = NUMBER_COLORS[cell.neighborMines as keyof typeof NUMBER_COLORS];
+            return cn(baseStyles, numberColor);
+        }
         return baseStyles;
     };
 

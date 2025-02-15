@@ -18,16 +18,16 @@ export const SCORE_CONFIG = {
     flagBonus: 1.5
 };
 
-export const NUMBER_COLORS = [
-    'text-blue-500',   // 1
-    'text-green-500',  // 2
-    'text-red-500',    // 3
-    'text-purple-500', // 4
-    'text-yellow-500', // 5
-    'text-pink-500',   // 6
-    'text-teal-500',   // 7
-    'text-gray-500'    // 8
-];
+export const NUMBER_COLORS = {
+    1: 'text-blue-500',
+    2: 'text-green-500',
+    3: 'text-red-500',
+    4: 'text-purple-500', 
+    5: 'text-yellow-500',
+    6: 'text-pink-500',
+    7: 'text-teal-500',
+    8: 'text-gray-500'
+} as const;
 
 const NUMBER_STYLES = {
     roman: ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'],
