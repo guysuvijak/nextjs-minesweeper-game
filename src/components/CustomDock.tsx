@@ -101,6 +101,8 @@ export function CustomDock() {
                                 <TooltipTrigger asChild>
                                     <Link
                                         href={social.url}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
                                         aria-label={social.name}
                                         className={cn(
                                         buttonVariants({ variant: 'ghost', size: 'icon' }),
