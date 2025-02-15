@@ -4,6 +4,20 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  cursor: url('/cursor/cursor-idle.webp'), auto;
+}
+
+/* Pointer cursor */
+a, button, [role="button"], input[type="submit"], input[type="button"], input[type="reset"] {
+  cursor: url('/cursor/cursor-pointer.webp'), pointer;
+}
+
+.cursor-default {
+  cursor: url('/cursor/cursor-idle.webp'), pointer;
+}
+
+.cursor-pointer {
+  cursor: url('/cursor/cursor-pointer.webp'), pointer;
 }
 
 @layer base {
@@ -68,6 +82,28 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar-game {
+      scrollbar-width: thin;
+      scrollbar-color: theme('colors.gray.400') theme('colors.gray.100');
+  }
+  
+  .scrollbar-game::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+  }
+  
+  .scrollbar-game::-webkit-scrollbar-track {
+      background: theme('colors.gray.100');
+      border-radius: 3px;
+  }
+  
+  .scrollbar-game::-webkit-scrollbar-thumb {
+      background-color: theme('colors.gray.400');
+      border-radius: 3px;
   }
 }
 

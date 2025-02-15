@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useTranslation, Language } from '@/hooks/useTranslation';
 import { Bomb, Settings, ChevronRight, Trophy } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { Particles } from '@/components/magicui/particles';
 import { SparklesText } from '@/components/magicui/sparkles-text';
 import { ShimmerButton } from '@/components/magicui/shimmer-button';
 import { CustomDock } from '@/components/CustomDock';
 import { Difficulty } from '@/types';
+import { cn } from '@/lib/utils';
+import { DIFFICULTY_DATA } from '@/configs';
 
 interface MainMenuProps {
     onStartGame: (difficulty: Difficulty) => void;
@@ -20,20 +21,14 @@ interface MainMenuProps {
     onShowLeaderboard: () => void;
 };
 
-export default function MainMenu({ onStartGame, onOpenSettings, language }: MainMenuProps) {
+export const MainMenu = ({ onStartGame, onOpenSettings, language }: MainMenuProps) => {
     const { t } = useTranslation(language);
-    const [ selectedDifficulty, setSelectedDifficulty ] = useState<Difficulty>('easy');
     const { resolvedTheme } = useTheme();
-    const [ color, setColor ] = useState('#ffffff');
-
-    const difficulties = {
-        easy: { label: t('mainmenu.difficulty.easy'), mines: 10, size: '9x9' },
-        medium: { label: t('mainmenu.difficulty.medium'), mines: 40, size: '16x16' },
-        hard: { label: t('mainmenu.difficulty.hard'), mines: 99, size: '16x30' }
-    };
+    const [ selectedDifficulty, setSelectedDifficulty ] = useState<Difficulty>('easy');
+    const [ color, setColor ] = useState('#FFFFFF');
 
     useEffect(() => {
-        setColor(resolvedTheme === 'dark' ? '#ffffff' : '#000000');
+        setColor(resolvedTheme === 'dark' ? '#FFFFFF' : '#000000');
     }, [resolvedTheme]);
 
     return (
@@ -50,7 +45,7 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                 <CardContent className='space-y-4 p-6'>
                     {/* Difficulty Selection */}
                     <div className='grid gap-3'>
-                        {Object.entries(difficulties).map(([key, data]) => (
+                        {Object.entries(DIFFICULTY_DATA).map(([key, data]) => (
                             <Button
                                 key={key}
                                 variant={selectedDifficulty === key ? 'default' : 'outline'}
@@ -64,7 +59,7 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                             >
                                 <div className='flex items-center justify-between w-full px-4'>
                                     <div className='flex items-center gap-4'>
-                                        <div className='text-xl font-medium text-foreground'>{data.label}</div>
+                                        <div className='text-xl font-medium text-foreground'>{t(`mainmenu.difficulty.${key}`)}</div>
                                         <Badge variant='secondary' className='font-mono'>
                                             {data.size}
                                         </Badge>
@@ -91,8 +86,8 @@ export default function MainMenu({ onStartGame, onOpenSettings, language }: Main
                     <div className='flex flex-col space-y-4 pt-2 items-center justify-center'>
                         <ShimmerButton
                             className='w-full sm:w-[70%] shadow-2xl'
-                            background={resolvedTheme === 'dark' ? '#ffffff' : '#000000'}
-                            shimmerColor={resolvedTheme === 'dark' ? '#000000' : '#ffffff'}
+                            background={resolvedTheme === 'dark' ? '#FFFFFF' : '#000000'}
+                            shimmerColor={resolvedTheme === 'dark' ? '#000000' : '#FFFFFF'}
                             shimmerSize='0.1em'
                             onClick={() => onStartGame(selectedDifficulty)}
                         >

@@ -71,7 +71,9 @@
             "title": "Number",
             "default": "(1) Normal",
             "roman": "(I) Roman",
-            "thai": "(๑) Thai"
+            "thai": "(๑) Thai",
+            "abc": "(A) ABC",
+            "question": "(?) Question"
         }
     }
 }

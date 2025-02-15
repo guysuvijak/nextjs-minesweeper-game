@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
-import MainMenu from '@/components/MainMenu';
-import Minesweeper from '@/components/Minesweeper';
+import { MainMenu } from '@/components/MainMenu';
+import { Minesweeper } from '@/components/Minesweeper';
 import { SettingsModal } from '@/components/SettingsModal';
 import { GameResultModal } from '@/components/GameResultModal';
 import { GameStats, GameSettings } from '@/types';
@@ -78,5 +78,5 @@ export default function Home() {
                 />
             )}
         </>
-    );
-}
+    )
+};

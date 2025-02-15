@@ -40,7 +40,6 @@ export function GameResultModal({ isOpen, onClose, stats, language, onBackMenu }
     };
 
     return (
-        <>
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className='sm:max-w-[425px]'>
                 <DialogHeader>
@@ -70,6 +69,6 @@ export function GameResultModal({ isOpen, onClose, stats, language, onBackMenu }
                     />
                 }
             </DialogContent>
-        </Dialog></>
+        </Dialog>
     )
 };

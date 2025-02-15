@@ -71,7 +71,9 @@
             "title": "Số",
             "default": "(1) Thường",
             "roman": "(I) La Mã",
-            "thai": "(๑) Thái"
+            "thai": "(๑) Thái",
+            "abc": "(A) ABC",
+            "question": "(?) Câu hỏi"
         }
     }
 }

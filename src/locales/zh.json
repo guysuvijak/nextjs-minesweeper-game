@@ -71,7 +71,9 @@
             "title": "数字",
             "default": "(1) 普通",
             "roman": "(I) 罗马",
-            "thai": "(๑) 泰文"
+            "thai": "(๑) 泰文",
+            "abc": "(A) ABC",
+            "question": "(?) 问题"
         }
     }
 }

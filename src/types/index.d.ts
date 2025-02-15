@@ -1,7 +1,16 @@
 export type Language = 'en' | 'th' | 'jp' | 'vi' | 'zh';
-export type FlagStyle = 'default' | 'triangle' | 'circle' | 'sparkles' | 'sigma';
+export type FlagStyle = 'default' | 'pyramid' | 'radar' | 'sparkles' | 'sigma';
 export type BombStyle = 'default' | 'skull' | 'fire' | 'flame' | 'ghost';
-export type NumberStyle = 'default' | 'roman' | 'thai';
+export type NumberStyle = 'default' | 'roman' | 'thai' | 'abc' | 'question';
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
+export type TranslationValue = string | { [key: string]: TranslationValue };
+
+export type TranslationsType = {
+    [K in Language]: {
+        [key: string]: TranslationValue;
+    };
+};
 
 export interface GameSettings {
     language: Language;
@@ -15,21 +24,11 @@ export interface GameStats {
     difficulty: Difficulty;
     flagsPlaced: number;
     score: number;
-}
-
-export type Difficulty = 'easy' | 'medium' | 'hard';
+};
 
 export interface Cell {
     isMine: boolean;
     isRevealed: boolean;
     isFlagged: boolean;
     neighborMines: number;
-};
-
-export type TranslationValue = string | { [key: string]: TranslationValue };
-
-export type TranslationsType = {
-    [K in Language]: {
-        [key: string]: TranslationValue;
-    };
 };

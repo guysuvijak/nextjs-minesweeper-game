@@ -1,18 +1,7 @@
+'use client'
 import { useCallback } from 'react';
-import { TranslationValue, TranslationsType, Language as LanguageType } from '@/types';
-import en from '@/locales/en.json';
-import th from '@/locales/th.json';
-import jp from '@/locales/jp.json';
-import vi from '@/locales/vi.json';
-import zh from '@/locales/zh.json';
-
-const translations: TranslationsType = {
-    en,
-    th,
-    jp,
-    vi,
-    zh
-};
+import { TranslationValue, Language as LanguageType } from '@/types';
+import { LANGUAGE_DATA } from '@/configs';
 
 export type Language = LanguageType;
 
@@ -23,7 +12,7 @@ export function useTranslation(language: Language) {
                 return obj[k];
             }
             return key;
-        }, translations[language]);
+        }, LANGUAGE_DATA[language]);
         
         if (typeof translation !== 'string') {
             return key;
