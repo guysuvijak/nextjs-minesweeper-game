@@ -248,20 +248,18 @@ export const Minesweeper = ({ settings, difficulty: initialDifficulty, language,
     };
 
     const getCellClasses = (cell: Cell) => {
-        const baseStyles = [
+        const baseStyles = cn(
             'w-8 h-8 p-0 text-sm font-bold',
             cell.isRevealed ? 'cursor-default' : 'cursor-pointer',
             !cell.isRevealed ? 'bg-secondary hover:bg-secondary/80 border border-primary/10' : 'hover:bg-transparent',
             cell.isMine && cell.isRevealed ? 'bg-red-100' : '',
             cell.isRevealed && !cell.isMine ? 'bg-background' : '',
             'select-none'
-        ].filter(Boolean).join(' ');
+        );
     
-        if (!cell.isRevealed || cell.isMine || cell.isFlagged) {
-            return baseStyles;
-        }
-        const numberColors = colorData;
-        return `${baseStyles} ${numberColors[cell.neighborMines - 1] || ''}`;
+        if (!cell.isRevealed || cell.isMine || cell.isFlagged) return baseStyles;
+        if (cell.neighborMines > 0) return cn(baseStyles, colorData[cell.neighborMines - 1]);
+        return baseStyles;
     };
 
     const handleCellClick = (rowIndex: number, colIndex: number) => {
