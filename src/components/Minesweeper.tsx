@@ -11,7 +11,7 @@ import { useTranslation, Language } from '@/hooks/useTranslation';
 import { useTheme } from 'next-themes';
 import { Particles } from '@/components/magicui/particles';
 import { cn } from '@/lib/utils';
-import { DIFFICULTY_DATA, SCORE_CONFIG, NUMBER_COLORS, getBombIcon, getFlagIcon, getNumberDisplay } from '@/configs';
+import { DIFFICULTY_DATA, SCORE_CONFIG, getBombIcon, getFlagIcon, getNumberDisplay } from '@/configs';
 
 interface MinesweeperProps {
     settings: GameSettings;
@@ -247,22 +247,36 @@ export const Minesweeper = ({ settings, difficulty: initialDifficulty, language,
     };
 
     const getCellClasses = (cell: Cell) => {
-        const baseStyles = cn(
+        const baseClasses = [
             'w-8 h-8 p-0 text-sm font-bold',
             cell.isRevealed ? 'cursor-default' : 'cursor-pointer',
             !cell.isRevealed ? 'bg-secondary hover:bg-secondary/80 border border-primary/10' : 'hover:bg-transparent',
             cell.isMine && cell.isRevealed ? 'bg-red-100' : '',
             cell.isRevealed && !cell.isMine ? 'bg-background' : '',
             'select-none'
-        );
+        ];
+
+        const NUMBER_COLORS = {
+            1: 'text-blue-500',
+            2: 'text-green-500',
+            3: 'text-red-500',
+            4: 'text-purple-500',
+            5: 'text-yellow-500',
+            6: 'text-pink-500',
+            7: 'text-teal-500',
+            8: 'text-gray-500'
+        };
     
-        if (!cell.isRevealed || cell.isMine || cell.isFlagged) return baseStyles;
-        console.log(cell.neighborMines)
-        if (cell.neighborMines > 0) {
-            const numberColor = NUMBER_COLORS[cell.neighborMines as keyof typeof NUMBER_COLORS];
-            return cn(baseStyles, numberColor);
+        if (!cell.isRevealed || cell.isMine || cell.isFlagged) {
+            return baseClasses.filter(Boolean).join(' ');
         }
-        return baseStyles;
+    
+        if (cell.neighborMines > 0) {
+            const colorClass = NUMBER_COLORS[cell.neighborMines as keyof typeof NUMBER_COLORS];
+            return [...baseClasses, colorClass].filter(Boolean).join(' ');
+        }
+    
+        return baseClasses.filter(Boolean).join(' ');
     };
 
     const handleCellClick = (rowIndex: number, colIndex: number) => {
