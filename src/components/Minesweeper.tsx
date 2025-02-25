@@ -151,58 +151,6 @@ export const Minesweeper = ({
   const revealCell = (row: number, col: number) => {
     if (!isGameStarted) {
       setIsGameStarted(true);
-      setTimeout(() => {
-        if (board[row][col].isFlagged) return;
-
-        const newBoard = [...board];
-        if (board[row][col].isMine) {
-          // Game Over
-          for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
-              if (newBoard[i][j].isMine) {
-                newBoard[i][j].isRevealed = true;
-              }
-            }
-          }
-          setBoard(newBoard);
-          setGameOver(true);
-        } else {
-          const revealEmpty = (r: number, c: number) => {
-            if (
-              r < 0 ||
-              r >= rows ||
-              c < 0 ||
-              c >= cols ||
-              newBoard[r][c].isRevealed ||
-              newBoard[r][c].isFlagged
-            ) {
-              return;
-            }
-
-            newBoard[r][c].isRevealed = true;
-
-            if (newBoard[r][c].neighborMines === 0) {
-              for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                  revealEmpty(r + i, c + j);
-                }
-              }
-            }
-          };
-
-          revealEmpty(row, col);
-          setBoard(newBoard);
-
-          const unrevealedNonMines = newBoard
-            .flat()
-            .filter((cell) => !cell.isRevealed && !cell.isMine).length;
-
-          if (unrevealedNonMines === 0) {
-            setGameWon(true);
-          }
-        }
-      }, 0);
-      return;
     }
 
     if (
@@ -227,7 +175,6 @@ export const Minesweeper = ({
       setBoard(newBoard);
       setGameOver(true);
     } else {
-      // Reveal cell
       const revealEmpty = (r: number, c: number) => {
         if (
           r < 0 ||
