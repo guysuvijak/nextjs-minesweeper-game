@@ -1,28 +1,28 @@
-"use client";
-import { useCallback, useEffect, useState, useRef } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Flag, RotateCcw, ArrowLeft, Shovel } from "lucide-react";
+'use client';
+import { useCallback, useEffect, useState, useRef } from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Flag, RotateCcw, ArrowLeft, Shovel } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { GameSettings, GameStats, Difficulty, Cell } from "@/types";
-import { Timer } from "@/components/Timer";
-import { useTranslation, Language } from "@/hooks/useTranslation";
-import { useTheme } from "next-themes";
-import { Particles } from "@/components/magicui/particles";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { GameSettings, GameStats, Difficulty, Cell } from '@/types';
+import { Timer } from '@/components/Timer';
+import { useTranslation, Language } from '@/hooks/useTranslation';
+import { useTheme } from 'next-themes';
+import { Particles } from '@/components/magicui/particles';
+import { cn } from '@/lib/utils';
 import {
     DIFFICULTY_DATA,
     SCORE_CONFIG,
     getBombIcon,
     getFlagIcon,
     getNumberDisplay,
-} from "@/configs";
+} from '@/configs';
 
 interface MinesweeperProps {
     settings: GameSettings;
@@ -49,11 +49,11 @@ export const Minesweeper = ({
     const [ timeElapsed, setTimeElapsed ] = useState(0);
     const [ isGameStarted, setIsGameStarted ] = useState(false);
     const { resolvedTheme } = useTheme();
-    const [ color, setColor ] = useState("#FFFFFF");
+    const [ color, setColor ] = useState('#FFFFFF');
     const [ isFlagMode, setIsFlagMode ] = useState(false);
 
     useEffect(() => {
-        setColor(resolvedTheme === "dark" ? "#FFFFFF" : "#000000");
+        setColor(resolvedTheme === 'dark' ? '#FFFFFF' : '#000000');
     }, [resolvedTheme]);
 
     const scoreConfigRef = useRef(SCORE_CONFIG);
@@ -229,7 +229,7 @@ export const Minesweeper = ({
     };
 
     const getCellSize = () => {
-        if (typeof window !== "undefined") {
+        if (typeof window !== 'undefined') {
             const width = window.innerWidth;
             // Mobile
             if (width < 640) return 28; // px
@@ -243,38 +243,38 @@ export const Minesweeper = ({
 
     const getCellClasses = (cell: Cell) => {
         const baseClasses = [
-            "w-8 h-8 p-0 text-sm font-bold",
-            cell.isRevealed ? "cursor-default" : "cursor-pointer",
+            'w-8 h-8 p-0 text-sm font-bold',
+            cell.isRevealed ? 'cursor-default' : 'cursor-pointer',
             !cell.isRevealed
-                ? "bg-secondary hover:bg-secondary/80 border border-primary/10"
-                : "hover:bg-transparent",
-            cell.isMine && cell.isRevealed ? "bg-red-100" : "",
-            cell.isRevealed && !cell.isMine ? "bg-background" : "",
-            "select-none",
+                ? 'bg-secondary hover:bg-secondary/80 border border-primary/10'
+                : 'hover:bg-transparent',
+            cell.isMine && cell.isRevealed ? 'bg-red-100' : '',
+            cell.isRevealed && !cell.isMine ? 'bg-background' : '',
+            'select-none',
         ];
 
         const NUMBER_COLORS = {
-            1: "text-blue-500",
-            2: "text-green-500",
-            3: "text-red-500",
-            4: "text-purple-500",
-            5: "text-yellow-500",
-            6: "text-pink-500",
-            7: "text-teal-500",
-            8: "text-gray-500",
+            1: 'text-blue-500',
+            2: 'text-green-500',
+            3: 'text-red-500',
+            4: 'text-purple-500',
+            5: 'text-yellow-500',
+            6: 'text-pink-500',
+            7: 'text-teal-500',
+            8: 'text-gray-500',
         };
 
         if (!cell.isRevealed || cell.isMine || cell.isFlagged) {
-            return baseClasses.filter(Boolean).join(" ");
+            return baseClasses.filter(Boolean).join(' ');
         }
 
         if (cell.neighborMines > 0) {
             const colorClass =
                 NUMBER_COLORS[cell.neighborMines as keyof typeof NUMBER_COLORS];
-            return [...baseClasses, colorClass].filter(Boolean).join(" ");
+            return [...baseClasses, colorClass].filter(Boolean).join(' ');
         }
 
-        return baseClasses.filter(Boolean).join(" ");
+        return baseClasses.filter(Boolean).join(' ');
     };
 
     const handleCellClick = (rowIndex: number, colIndex: number) => {
@@ -314,8 +314,8 @@ export const Minesweeper = ({
                                         <Button
                                             variant={
                                                 isFlagMode
-                                                    ? "default"
-                                                    : "outline"
+                                                    ? 'default'
+                                                    : 'outline'
                                             }
                                             size="icon"
                                             onClick={() =>
@@ -324,11 +324,11 @@ export const Minesweeper = ({
                                         >
                                             {isFlagMode ? (
                                                 <Flag
-                                                    className={cn("w-4 h-4")}
+                                                    className={cn('w-4 h-4')}
                                                 />
                                             ) : (
                                                 <Shovel
-                                                    className={cn("w-4 h-4")}
+                                                    className={cn('w-4 h-4')}
                                                 />
                                             )}
                                         </Button>
@@ -336,8 +336,8 @@ export const Minesweeper = ({
                                     <TooltipContent>
                                         <p>
                                             {isFlagMode
-                                                ? t("game.dig-mode")
-                                                : t("game.flag-mode")}
+                                                ? t('game.dig-mode')
+                                                : t('game.flag-mode')}
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -354,7 +354,7 @@ export const Minesweeper = ({
                                         </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>{t("game.reset-tooltip")}</p>
+                                        <p>{t('game.reset-tooltip')}</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
@@ -362,15 +362,15 @@ export const Minesweeper = ({
                     </div>
                     <div className="flex justify-center items-center mt-2 gap-2">
                         <Badge variant="outline">
-                            {t("game.mine")}: {mines - flagCount}
+                            {t('game.mine')}: {mines - flagCount}
                         </Badge>
                         {gameOver && (
                             <Badge variant="destructive">
-                                {t("game.lose")}
+                                {t('game.lose')}
                             </Badge>
                         )}
                         {gameWon && (
-                            <Badge variant="default">{t("game.win")}</Badge>
+                            <Badge variant="default">{t('game.win')}</Badge>
                         )}
                     </div>
                 </CardHeader>
@@ -380,9 +380,9 @@ export const Minesweeper = ({
                             className="grid gap-[1px] mx-auto"
                             style={{
                                 gridTemplateColumns: `repeat(${cols}, ${getCellSize()}px)`,
-                                width: "fit-content",
-                                minWidth: "min-content",
-                                maxHeight: "70vh",
+                                width: 'fit-content',
+                                minWidth: 'min-content',
+                                maxHeight: '70vh',
                             }}
                         >
                             {board.map((row, rowIndex) =>
@@ -393,9 +393,9 @@ export const Minesweeper = ({
                                         size="icon"
                                         className={cn(
                                             getCellClasses(cell),
-                                            "w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9",
-                                            "min-w-[28px] min-h-[28px]",
-                                            "p-0 text-xs md:text-sm"
+                                            'w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9',
+                                            'min-w-[28px] min-h-[28px]',
+                                            'p-0 text-xs md:text-sm'
                                         )}
                                         onClick={() =>
                                             handleCellClick(rowIndex, colIndex)
