@@ -40,17 +40,17 @@ export const Minesweeper = ({
     onBackMenu,
 }: MinesweeperProps) => {
     const { t } = useTranslation(language);
-    const [difficulty] = useState<Difficulty>(initialDifficulty);
-    const [board, setBoard] = useState<Cell[][]>([]);
-    const [gameOver, setGameOver] = useState(false);
-    const [gameWon, setGameWon] = useState(false);
-    const [flagCount, setFlagCount] = useState(0);
+    const [ difficulty ] = useState<Difficulty>(initialDifficulty);
+    const [ board, setBoard ] = useState<Cell[][]>([]);
+    const [ gameOver, setGameOver ] = useState(false);
+    const [ gameWon, setGameWon ] = useState(false);
+    const [ flagCount, setFlagCount ] = useState(0);
     const { rows, cols, mines } = DIFFICULTY_DATA[difficulty];
-    const [timeElapsed, setTimeElapsed] = useState(0);
-    const [isGameStarted, setIsGameStarted] = useState(false);
+    const [ timeElapsed, setTimeElapsed ] = useState(0);
+    const [ isGameStarted, setIsGameStarted ] = useState(false);
     const { resolvedTheme } = useTheme();
-    const [color, setColor] = useState("#FFFFFF");
-    const [isFlagMode, setIsFlagMode] = useState(false);
+    const [ color, setColor ] = useState("#FFFFFF");
+    const [ isFlagMode, setIsFlagMode ] = useState(false);
 
     useEffect(() => {
         setColor(resolvedTheme === "dark" ? "#FFFFFF" : "#000000");
