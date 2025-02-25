@@ -231,12 +231,10 @@ export const Minesweeper = ({
   const getCellSize = () => {
     if (typeof window !== "undefined") {
       const width = window.innerWidth;
-      // Mobile
-      if (width < 640) return 28; // px
-      // Tablet
-      if (width < 1024) return 32; // px
-      // Desktop
-      return 36; // px
+      const height = window.innerHeight;
+      const maxCellWidth = Math.floor((width * 0.9) / cols); // 90% ของความกว้าง
+      const maxCellHeight = Math.floor((height * 0.7) / rows); // 70% ของความสูง
+      return Math.min(maxCellWidth, maxCellHeight, 36); // จำกัดสูงสุดที่ 36px
     }
     return 32; // Default
   };
