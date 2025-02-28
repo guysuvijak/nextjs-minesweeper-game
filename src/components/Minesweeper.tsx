@@ -97,7 +97,8 @@ export const Minesweeper = ({
 
     useEffect(() => {
         handleGameOver();
-    }, [gameOver, gameWon, handleGameOver]); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameOver, gameWon]); 
 
     const initializeBoard = useCallback(() => {
         const newBoard: Cell[][] = Array(rows)
