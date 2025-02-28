@@ -8,7 +8,7 @@ interface TimerProps {
 }
 
 export function Timer({ isRunning, onTimeUpdate }: TimerProps) {
-    const [time, setTime] = useState(0);
+    const [ time, setTime ] = useState(0);
     const rafRef = useRef<number | null>(null);
     const startTimeRef = useRef<number | null>(null);
 
