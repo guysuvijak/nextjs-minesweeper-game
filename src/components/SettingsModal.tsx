@@ -1,37 +1,36 @@
 'use client';
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useMemo } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
-import { GameSettings, Language, FlagStyle, BombStyle, NumberStyle } from '@/types';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Label } from '@/components/ui/label';
 import { useTheme } from 'next-themes';
 import { LANGUAGE_OPTIONS, FLAG_OPTIONS, BOMB_OPTIONS, NUMBER_OPTIONS } from '@/configs';
+import { useLanguageStore, useSettingStore } from '@/stores';
 
-interface SettingsModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    settings: GameSettings;
-    onSettingsChange: (settings: GameSettings) => void;
-}
-
-export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: SettingsModalProps) => {
-    const { t } = useTranslation(settings.language);
+export const SettingsModal = () => {
+    const { t } = useTranslation();
+    const { lang, setLang } = useLanguageStore();
     const { theme, setTheme } = useTheme();
-    const [ localSettings, setLocalSettings ] = useState(settings);
+    const {
+        isMenuSettingOpen, setIsMenuSettingOpen,
+        flagIcon, setFlagIcon,
+        bombIcon, setBombIcon,
+        numberStyle, setNumberStyle
+    } = useSettingStore();
 
-    const handleSave = () => {
-        onSettingsChange(localSettings);
-        onClose();
-    };
+    const Icon = useMemo(() => (theme === 'dark' ? Sun : Moon), [theme]);
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className='sm:max-w-[425px]'>
+        <Dialog open={isMenuSettingOpen} onOpenChange={setIsMenuSettingOpen}>
+            <DialogContent className='sm:max-w-[425px]' aria-description='Setting'>
                 <DialogHeader>
                     <DialogTitle>{t('settings.title')}</DialogTitle>
+                    <DialogDescription>
+                        {t('settings.description')}
+                    </DialogDescription>
                 </DialogHeader>
                 <div className='grid gap-4 py-4'>
                     <div className='grid grid-cols-2 items-center gap-4'>
@@ -44,23 +43,19 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                             size='icon'
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className='w-full justify-between px-3'
+                            aria-label='Toggle theme'
                         >
                             <span>{t(`settings.theme.${theme}`)}</span>
-                            {theme === 'dark' ? (
-                                <Moon className='w-4 h-4' />
-                            ) : (
-                                <Sun className='w-4 h-4' />
-                            )}
+                            <Icon className='w-4 h-4' />
                         </Button>
+
                         {/* Language */}
                         <Label htmlFor='language'>
                             {t('settings.language.title')}
                         </Label>
                         <Select
-                            value={localSettings.language}
-                            onValueChange={(value: Language) => 
-                                setLocalSettings(prev => ({ ...prev, language: value }))
-                            }
+                            value={lang}
+                            onValueChange={(value) => setLang(value)}
                         >
                             <SelectTrigger id='language'>
                                 <SelectValue />
@@ -79,10 +74,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                             {t('settings.flag.title')}
                         </Label>
                         <Select
-                            value={localSettings.flagIcon}
-                            onValueChange={(value: FlagStyle) => 
-                                setLocalSettings(prev => ({ ...prev, flagIcon: value }))
-                            }
+                            value={flagIcon}
+                            onValueChange={(value) => setFlagIcon(value)}
                         >
                             <SelectTrigger id='flag'>
                                 <SelectValue />
@@ -101,10 +94,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                             {t('settings.bomb.title')}
                         </Label>
                         <Select
-                            value={localSettings.bombIcon}
-                            onValueChange={(value: BombStyle) => 
-                                setLocalSettings(prev => ({ ...prev, bombIcon: value }))
-                            }
+                            value={bombIcon}
+                            onValueChange={(value) => setBombIcon(value)}
                         >
                             <SelectTrigger id='bomb'>
                                 <SelectValue />
@@ -123,10 +114,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                             {t('settings.number.title')}
                         </Label>
                         <Select
-                            value={localSettings.numberStyle}
-                            onValueChange={(value: NumberStyle) => 
-                                setLocalSettings(prev => ({ ...prev, numberStyle: value }))
-                            }
+                            value={numberStyle}
+                            onValueChange={(value) => setNumberStyle(value)}
                         >
                             <SelectTrigger id='number'>
                                 <SelectValue />
@@ -142,11 +131,8 @@ export const SettingsModal = ({ isOpen, onClose, settings, onSettingsChange }: S
                     </div>
                 </div>
                 <div className='flex justify-end gap-3'>
-                    <Button variant='outline' onClick={onClose}>
-                        {t('settings.cancel-button')}
-                    </Button>
-                    <Button onClick={handleSave}>
-                        {t('settings.save-button')}
+                    <Button variant='outline' onClick={() => setIsMenuSettingOpen(false)}>
+                        {t('settings.done-button')}
                     </Button>
                 </div>
             </DialogContent>

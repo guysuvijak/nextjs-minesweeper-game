@@ -1,7 +1,14 @@
 {
     "common": {
         "lang": "zh",
-        "game-title": "扫雷"
+        "game-title": "扫雷",
+        "loading": "載入中..."
+    },
+    "not-found": {
+        "title": "未找到",
+        "description": "請返回主頁。",
+        "loading": "載入中...",
+        "button": "後退"
     },
     "difficulty": {
         "easy": "简单",
@@ -14,6 +21,7 @@
         "difficulty": "难度"
     },
     "gameresult": {
+        "description": "Minesweeper 很好玩!",
         "win": "胜利！",
         "lose": "游戏结束！",
         "time": "时间",
@@ -21,13 +29,12 @@
         "difficulty": "难度",
         "flag": "已插旗数",
         "share-button": "分享",
-        "back-button": "返回主菜单"
+        "again-button": "再玩一次"
     },
     "mainmenu": {
-        "description": "由 MeteorVIIx 制作",
+        "description": "由 MeteorVIIx 制作 | 版本 {version}",
         "playgame": "开始游戏",
         "settings": "设置",
-        "leaderboard": "排行榜",
         "difficulty": {
             "title": "选择难度",
             "easy": "简单",
@@ -45,8 +52,8 @@
     },
     "settings": {
         "title": "设置",
-        "cancel-button": "取消",
-        "save-button": "保存更改",
+        "description": "自由訂製",
+        "done-button": "完畢",
         "theme": {
             "title": "主题",
             "system": "系统",

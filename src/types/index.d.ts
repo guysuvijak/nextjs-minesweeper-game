@@ -1,3 +1,7 @@
+import { GameStateProps, SettingStateProps } from './store';
+
+export { GameStateProps, SettingStateProps };
+
 export type Language = 'en' | 'th' | 'jp' | 'vi' | 'zh';
 export type FlagStyle = 'default' | 'pyramid' | 'radar' | 'sparkles' | 'sigma';
 export type BombStyle = 'default' | 'skull' | 'fire' | 'flame' | 'ghost';
@@ -6,17 +10,22 @@ export type Difficulty = 'easy' | 'medium' | 'hard';
 
 export type TranslationValue = string | { [key: string]: TranslationValue };
 
+export type Variables = {
+    [key: string]: string | number | ReactNode
+};
+export type Translation = {
+    [key: string]: TranslationValue
+};
+
 export type TranslationsType = {
     [K in Language]: {
         [key: string]: TranslationValue;
     };
 };
 
-export interface GameSettings {
-    language: Language;
-    flagIcon: FlagStyle;
-    bombIcon: BombStyle;
-    numberStyle: NumberStyle;
+export interface LanguageStateProps {
+    lang: string;
+    setLang: (lang: string) => void;
 };
 
 export interface GameStats {

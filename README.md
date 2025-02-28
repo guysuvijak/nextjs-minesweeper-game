@@ -32,7 +32,7 @@ Minesweeper is a web-based implementation of the classic puzzle game, built with
 
 ## 🛠️ Tech Stack
 - <img src="https://avatars.githubusercontent.com/u/126103961" title="Next JS" alt="nextjs" width="20" height="20"/> Next.js 15 – Framework for static site generation.
-- <img src="https://avatars.githubusercontent.com/u/67109815" title="Tailwind CSS" alt="tailwindcss" width="20" height="20"/> TailwindCSS 3.4 – Utility-first CSS framework for styling.
+- <img src="https://avatars.githubusercontent.com/u/67109815" title="Tailwind CSS" alt="tailwindcss" width="20" height="20"/> TailwindCSS 4 – Utility-first CSS framework for styling.
 - <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg" title="TypeScript" alt="typscript" width="20" height="20"/> TypeScript – Strongly typed JavaScript for better maintainability.
 - <img src="https://avatars.githubusercontent.com/u/139895814" title="Shadcn/ui" alt="shadcn-ui" width="20" height="20"/> shadcn/ui – Reusable UI components
 - <img src="https://avatars.githubusercontent.com/u/166878038" title="Magic UI" alt="magic-ui" width="20" height="20"/> Magic UI – Reusable UI components
@@ -62,10 +62,18 @@ cd nextjs-minesweeper-game
 ### **2. Install dependencies**
 ```bash
 npm install
+or
+bun install
+or
+pnpm install
 ```
 ### **3. Start the development server**
 ```bash
 npm run dev
+or
+bun run dev
+or
+pnpm run dev
 ```
 ### **4. The app will be available**
 [http://localhost:3000](http://localhost:3000)

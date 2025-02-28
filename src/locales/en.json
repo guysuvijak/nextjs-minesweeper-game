@@ -1,7 +1,14 @@
 {
     "common": {
         "lang": "en",
-        "game-title": "Minesweeper"
+        "game-title": "Minesweeper",
+        "loading": "Loading..."
+    },
+    "not-found": {
+        "title": "Not Found",
+        "description": "Please return to the home page.",
+        "loading": "Loading...",
+        "button": "Back"
     },
     "difficulty": {
         "easy": "Easy",
@@ -14,6 +21,7 @@
         "difficulty": "Difficulty"
     },
     "gameresult": {
+        "description": "Minesweeper is fun!",
         "win": "You Win!",
         "lose": "Game Over!",
         "time": "Time",
@@ -21,13 +29,12 @@
         "difficulty": "Difficulty",
         "flag": "Flag Placed",
         "share-button": "Share",
-        "back-button": "Back Mainmenu"
+        "again-button": "Play again"
     },
     "mainmenu": {
-        "description": "Create by MeteorVIIx",
+        "description": "Create by MeteorVIIx | Version {version}",
         "playgame": "Start Game",
         "settings": "Settings",
-        "leaderboard": "Leaderboard",
         "difficulty": {
             "title": "Select Difficulty",
             "easy": "Easy",
@@ -45,8 +52,8 @@
     },
     "settings": {
         "title": "Settings",
-        "cancel-button": "Cancel",
-        "save-button": "Save changes",
+        "description": "Freely customized",
+        "done-button": "Done",
         "theme": {
             "title": "Theme",
             "system": "System",

@@ -1,7 +1,14 @@
 {
     "common": {
         "lang": "jp",
-        "game-title": "マインスイーパー"
+        "game-title": "マインスイーパー",
+        "loading": "読み込み中..."
+    },
+    "not-found": {
+        "title": "見つかりませんでした",
+        "description": "ホームページに戻ってください。",
+        "loading": "読み込み中...",
+        "button": "戻る"
     },
     "difficulty": {
         "easy": "簡単",
@@ -14,6 +21,7 @@
         "difficulty": "難易度"
     },
     "gameresult": {
+        "description": "Minesweeper は面白い!",
         "win": "あなたの勝ち!",
         "lose": "ゲームオーバー!",
         "time": "時間",
@@ -21,13 +29,12 @@
         "difficulty": "難易度",
         "flag": "配置した旗",
         "share-button": "共有",
-        "back-button": "メインメニュー"
+        "again-button": "遊ぶ"
     },
     "mainmenu": {
-        "description": "作成者: MeteorVIIx",
+        "description": "作成者: MeteorVIIx | バージョン {version}",
         "playgame": "ゲーム開始",
         "settings": "設定",
-        "leaderboard": "ランキング",
         "difficulty": {
             "title": "難易度を選択",
             "easy": "簡単",
@@ -45,8 +52,8 @@
     },
     "settings": {
         "title": "設定",
-        "cancel-button": "キャンセル",
-        "save-button": "変更を保存",
+        "description": "自由にカスタマイズ",
+        "done-button": "近い",
         "theme": {
             "title": "テーマ",
             "system": "システム",

@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
 import React from 'react';
-import ModeToggle from '@/components/mode-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { TooltipWrapper } from '@/components/TooltipWrapper';
 import { cn } from '@/lib/utils';
 import { Dock, DockIcon } from '@/components/magicui/dock';
 
@@ -69,68 +68,47 @@ const DATA = {
 export function CustomDock() {
     return (
         <div className='flex flex-col items-center justify-center'>
-            <TooltipProvider>
-                <Dock direction='middle' className='my-4'>
-                    {DATA.navbar.map((item) => (
-                        <DockIcon key={item.label}>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href={item.href}
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        aria-label={item.label}
-                                        className={cn(
-                                        buttonVariants({ variant: 'ghost', size: 'icon' }),
-                                        'size-12 rounded-full',
-                                        )}
-                                    >
-                                        <item.icon className='size-4' />
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{item.label}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </DockIcon>
-                    ))}
-                    <Separator orientation='vertical' className='h-full' />
-                    {Object.entries(DATA.contact.social).map(([name, social]) => (
-                        <DockIcon key={name}>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href={social.url}
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        aria-label={social.name}
-                                        className={cn(
-                                        buttonVariants({ variant: 'ghost', size: 'icon' }),
-                                        'size-12 rounded-full',
-                                        )}
-                                    >
-                                        <social.icon className='size-4' />
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{name}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </DockIcon>
-                    ))}
-                    <Separator orientation='vertical' className='h-full py-2' />
-                    <DockIcon>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <ModeToggle />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Theme</p>
-                            </TooltipContent>
-                        </Tooltip>
+            <Dock direction='middle' className='my-4'>
+                {DATA.navbar.map((item) => (
+                    <DockIcon key={item.label}>
+                        <TooltipWrapper message={item.label}>
+                            <Link
+                                href={item.href}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                aria-label={item.label}
+                                className={cn(
+                                buttonVariants({ variant: 'ghost', size: 'icon' }),
+                                'size-12 rounded-full',
+                                )}
+                            >
+                                <item.icon className='size-4' />
+                            </Link>
+                        </TooltipWrapper>
                     </DockIcon>
-                </Dock>
-            </TooltipProvider>
+                ))}
+                
+                <Separator orientation='vertical' className='h-full' />
+
+                {Object.entries(DATA.contact.social).map(([name, social]) => (
+                    <DockIcon key={name}>
+                        <TooltipWrapper message={name}>
+                            <Link
+                                href={social.url}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                aria-label={social.name}
+                                className={cn(
+                                buttonVariants({ variant: 'ghost', size: 'icon' }),
+                                'size-12 rounded-full',
+                                )}
+                            >
+                                <social.icon className='size-4' />
+                            </Link>
+                        </TooltipWrapper>
+                    </DockIcon>
+                ))}
+            </Dock>
         </div>
     )
 };

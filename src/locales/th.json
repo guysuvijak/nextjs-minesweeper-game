@@ -1,7 +1,14 @@
 {
     "common": {
         "lang": "th",
-        "game-title": "เกมกู้ระเบิด"
+        "game-title": "เกมกู้ระเบิด",
+        "loading": "กำลังโหลด..."
+    },
+    "not-found": {
+        "title": "ไม่พบหน้านี้",
+        "description": "กรุณากลับสู่หน้าแรก",
+        "loading": "กำลังโหลด...",
+        "button": "ย้อนกลับ"
     },
     "difficulty": {
         "easy": "ง่าย",
@@ -14,6 +21,7 @@
         "difficulty": "ระดับความยาก"
     },
     "gameresult": {
+        "description": "Minesweeper สนุก!",
         "win": "คุณชนะ!",
         "lose": "จบเกม!",
         "time": "เวลา",
@@ -21,13 +29,12 @@
         "difficulty": "ระดับความยาก",
         "flag": "จำนวนธง",
         "share-button": "แชร์",
-        "back-button": "กลับหน้าแรก"
+        "again-button": "เล่นใหม่"
     },
     "mainmenu": {
-        "description": "สร้างโดย MeteorVIIx",
+        "description": "สร้างโดย MeteorVIIx | เวอร์ชั่น {version}",
         "playgame": "เริ่มเกม",
         "settings": "ตั้งค่า",
-        "leaderboard": "ตารางคะแนน",
         "difficulty": {
             "title": "เลือกระดับความยาก",
             "easy": "ง่าย",
@@ -45,8 +52,8 @@
     },
     "settings": {
         "title": "การตั้งค่า",
-        "cancel-button": "ยกเลิก",
-        "save-button": "บันทึกการเปลี่ยนแปลง",
+        "description": "ปรับแต่งได้อย่างอิสระ",
+        "done-button": "ปิด",
         "theme": {
             "title": "ธีม",
             "system": "ระบบ",

@@ -4,15 +4,11 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Flag, RotateCcw, ArrowLeft, Shovel } from 'lucide-react';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { GameSettings, GameStats, Difficulty, Cell } from '@/types';
+import { TooltipWrapper } from '@/components/TooltipWrapper';
+import { Cell, Difficulty } from '@/types';
 import { Timer } from '@/components/Timer';
-import { useTranslation, Language } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks/useTranslation';
+import { useGameStore, useSettingStore } from '@/stores';
 import { useTheme } from 'next-themes';
 import { Particles } from '@/components/magicui/particles';
 import { cn } from '@/lib/utils';
@@ -21,51 +17,50 @@ import {
     SCORE_CONFIG,
     getBombIcon,
     getFlagIcon,
-    getNumberDisplay,
+    getNumberDisplay
 } from '@/configs';
 
-interface MinesweeperProps {
-    settings: GameSettings;
-    difficulty: Difficulty;
-    language: Language;
-    onGameOver: (stats: GameStats) => void;
-    onBackMenu: () => void;
-}
-
-export const Minesweeper = ({
-    settings,
-    difficulty: initialDifficulty,
-    language,
-    onGameOver,
-    onBackMenu,
-}: MinesweeperProps) => {
-    const { t } = useTranslation(language);
-    const [ difficulty ] = useState<Difficulty>(initialDifficulty);
-    const [ board, setBoard ] = useState<Cell[][]>([]);
-    const [ gameOver, setGameOver ] = useState(false);
+export const Minesweeper = () => {
+    const { t } = useTranslation();
+    const {
+        board, isGameOver, difficulty, isFlagMode, flagsPlaced,
+        setBoard, setIsStartGame, setIsShowResult, setIsGameOver, setIsFlagMode, setFlagsPlaced
+    } = useGameStore();
+    const { flagIcon, bombIcon, numberStyle } = useSettingStore();
+    const { theme } = useTheme();
     const [ gameWon, setGameWon ] = useState(false);
-    const [ flagCount, setFlagCount ] = useState(0);
-    const { rows, cols, mines } = DIFFICULTY_DATA[difficulty];
+    const { rows, cols, mines } = DIFFICULTY_DATA[difficulty as Difficulty];
     const [ timeElapsed, setTimeElapsed ] = useState(0);
     const [ isGameStarted, setIsGameStarted ] = useState(false);
-    const { resolvedTheme } = useTheme();
-    const [ color, setColor ] = useState('#FFFFFF');
-    const [ isFlagMode, setIsFlagMode ] = useState(false);
+    const scoreConfigRef = useRef(SCORE_CONFIG);
+
+    const initializeBoard = useCallback(() => {
+        const newBoard: Cell[][] = Array(rows).fill(null)
+            .map(() => Array(cols).fill(null).map(() => ({
+                isMine: false,
+                isRevealed: false,
+                isFlagged: false,
+                neighborMines: 0,
+            }))
+        );
+
+        setBoard(newBoard);
+        setIsGameOver(false);
+        setGameWon(false);
+        setFlagsPlaced(0);
+        setIsGameStarted(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [rows, cols]);
 
     useEffect(() => {
-        setColor(resolvedTheme === 'dark' ? '#FFFFFF' : '#000000');
-    }, [resolvedTheme]);
-
-    const scoreConfigRef = useRef(SCORE_CONFIG);
+        initializeBoard();
+    }, [difficulty, initializeBoard]);
 
     const calculateScore = useCallback(() => {
         const config = scoreConfigRef.current;
-        const timeMultiplier = Math.max(
-            1,
-            (config.maxTime - timeElapsed) / config.maxTime
-        );
-        const difficultyMultiplier = config.multipliers[difficulty];
-        const flagAccuracyBonus = flagCount === mines ? config.flagBonus : 1;
+        const timeMultiplier = Math.max(1, (config.maxTime - timeElapsed) / config.maxTime);
+        const difficultyMultiplier = config.multipliers[difficulty as Difficulty];
+        const flagAccuracyBonus = flagsPlaced === mines ? config.flagBonus : 1;
 
         return Math.floor(
             config.baseScore *
@@ -73,57 +68,27 @@ export const Minesweeper = ({
                 difficultyMultiplier *
                 flagAccuracyBonus
         );
-    }, [timeElapsed, flagCount, difficulty, mines]);
+    }, [timeElapsed, flagsPlaced, difficulty, mines]);
 
     const handleGameOver = useCallback(() => {
-        if (gameOver || gameWon) {
+        if (isGameOver || gameWon) {
             setIsGameStarted(false);
-            onGameOver({
-                time: timeElapsed,
-                difficulty,
-                flagsPlaced: flagCount,
-                score: gameWon ? calculateScore() : 0,
-            });
+            setIsShowResult(true);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        gameOver,
+        isGameOver,
         gameWon,
-        onGameOver,
         calculateScore,
         timeElapsed,
         difficulty,
-        flagCount,
+        flagsPlaced,
     ]);
 
     useEffect(() => {
         handleGameOver();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameOver, gameWon]); 
-
-    const initializeBoard = useCallback(() => {
-        const newBoard: Cell[][] = Array(rows)
-            .fill(null)
-            .map(() =>
-                Array(cols)
-                    .fill(null)
-                    .map(() => ({
-                        isMine: false,
-                        isRevealed: false,
-                        isFlagged: false,
-                        neighborMines: 0,
-                    }))
-            );
-
-        setBoard(newBoard);
-        setGameOver(false);
-        setGameWon(false);
-        setFlagCount(0);
-        setIsGameStarted(false);
-    }, [rows, cols]);
-
-    useEffect(() => {
-        initializeBoard();
-    }, [difficulty, initializeBoard]);
+    }, [isGameOver, gameWon]);
 
     const placeMines = (firstRow: number, firstCol: number) => {
         const newBoard = [...board];
@@ -132,8 +97,7 @@ export const Minesweeper = ({
         while (minesPlaced < mines) {
             const row = Math.floor(Math.random() * rows);
             const col = Math.floor(Math.random() * cols);
-
-            // ตรวจสอบว่าไม่ใช่ช่องแรกที่ผู้เล่นเปิด และยังไม่มีระเบิด
+            
             if (!(row === firstRow && col === firstCol)) {
                 if (!newBoard[row][col].isMine) {
                     newBoard[row][col].isMine = true;
@@ -141,8 +105,7 @@ export const Minesweeper = ({
                 }
             }
         }
-
-        // คำนวณจำนวนระเบิดรอบๆ แต่ละช่อง
+        
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 if (!newBoard[row][col].isMine) {
@@ -168,28 +131,24 @@ export const Minesweeper = ({
     };
 
     const revealCell = (row: number, col: number) => {
-        // ไม่เปิดช่องที่ปักธงไว้
         if (board[row][col].isFlagged) return;
 
-        // ถ้าเป็นการเล่นครั้งแรก ให้เริ่มเกมและวางระเบิด
+        if (isGameOver || gameWon || board[row][col].isRevealed) return;
+        
         if (!isGameStarted) {
             setIsGameStarted(true);
-            placeMines(row, col); // วางระเบิดหลังจากเปิดช่องแรก
+            placeMines(row, col);
         }
-
-        if (gameOver || gameWon || board[row][col].isRevealed) return;
 
         const newBoard = [...board];
 
         if (board[row][col].isMine) {
-            // เมื่อเจอระเบิด ให้แสดงเฉพาะระเบิดที่โดนเปิดและจบเกม
             newBoard[row][col].isRevealed = true;
             setBoard(newBoard);
-            setGameOver(true);
+            setIsGameOver(true);
             return;
         } else {
             const revealEmpty = (r: number, c: number) => {
-                // ตรวจสอบขอบเขตและเงื่อนไขการเปิดช่อง
                 if (
                     r < 0 ||
                     r >= rows ||
@@ -200,11 +159,9 @@ export const Minesweeper = ({
                 ) {
                     return;
                 }
-
-                // เปิดช่องปัจจุบัน
+                
                 newBoard[r][c].isRevealed = true;
-
-                // ถ้าเป็นช่องว่าง (ไม่มีระเบิดข้างๆ) ให้เปิดช่องรอบๆ ด้วย
+                
                 if (newBoard[r][c].neighborMines === 0) {
                     for (let i = -1; i <= 1; i++) {
                         for (let j = -1; j <= 1; j++) {
@@ -213,11 +170,10 @@ export const Minesweeper = ({
                     }
                 }
             };
-
+            
             revealEmpty(row, col);
             setBoard(newBoard);
-
-            // ตรวจสอบว่าชนะเกมหรือยัง
+            
             const unrevealedNonMines = newBoard
                 .flat()
                 .filter((cell) => !cell.isRevealed && !cell.isMine).length;
@@ -229,20 +185,20 @@ export const Minesweeper = ({
     };
 
     const toggleFlag = (row: number, col: number) => {
-        if (gameOver || gameWon || board[row][col].isRevealed) return;
+        if (isGameOver || gameWon || board[row][col].isRevealed) return;
 
         const newBoard = [...board];
         newBoard[row][col].isFlagged = !newBoard[row][col].isFlagged;
         setBoard(newBoard);
-        setFlagCount(flagCount + (newBoard[row][col].isFlagged ? 1 : -1));
+        setFlagsPlaced(flagsPlaced + (newBoard[row][col].isFlagged ? 1 : -1));
     };
 
     const getCellContent = (cell: Cell) => {
-        if (cell.isFlagged) return getFlagIcon(settings.flagIcon);
+        if (cell.isFlagged) return getFlagIcon(flagIcon);
         if (!cell.isRevealed) return null;
-        if (cell.isMine) return getBombIcon(settings.bombIcon);
+        if (cell.isMine) return getBombIcon(bombIcon);
 
-        return getNumberDisplay(cell.neighborMines, settings.numberStyle);
+        return getNumberDisplay(cell.neighborMines, numberStyle);
     };
 
     const getCellSize = () => {
@@ -301,100 +257,76 @@ export const Minesweeper = ({
             revealCell(rowIndex, colIndex);
         }
     };
+    
+    const handleBackMenu = () => {
+        setIsStartGame(false);
+        setIsShowResult(false);
+        setIsGameOver(false);
+    };
 
     return (
-        <div className="min-h-screen bg-background p-2 md:p-4 flex items-center justify-center overflow-hidden">
-            <Card className="w-full max-w-[95vw] md:max-w-fit mx-auto z-10 overflow-hidden">
+        <div className='min-h-screen bg-background p-2 md:p-4 flex items-center justify-center overflow-hidden'>
+            <Card className='w-full max-w-[95vw] md:max-w-fit mx-auto z-10 overflow-hidden'>
                 <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <div className="w-[30%]">
+                    <div className='flex items-center justify-between'>
+                        <div className='w-[30%]'>
                             <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={onBackMenu}
+                                variant='ghost'
+                                size='icon'
+                                onClick={handleBackMenu}
                             >
-                                <ArrowLeft className="h-4 w-4" />
+                                <ArrowLeft className='h-4 w-4' />
                             </Button>
                         </div>
-                        <div className="flex w-[40%] justify-center">
+                        <div className='flex w-[40%] justify-center'>
                             <Timer
-                                isRunning={
-                                    isGameStarted && !gameOver && !gameWon
-                                }
+                                isRunning={isGameStarted && !isGameOver && !gameWon}
                                 onTimeUpdate={setTimeElapsed}
                             />
                         </div>
-                        <div className="flex items-center justify-end gap-2 w-[30%]">
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant={
-                                                isFlagMode
-                                                    ? 'default'
-                                                    : 'outline'
-                                            }
-                                            size="icon"
-                                            onClick={() =>
-                                                setIsFlagMode(!isFlagMode)
-                                            }
-                                        >
-                                            {isFlagMode ? (
-                                                <Flag
-                                                    className={cn('w-4 h-4')}
-                                                />
-                                            ) : (
-                                                <Shovel
-                                                    className={cn('w-4 h-4')}
-                                                />
-                                            )}
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>
-                                            {isFlagMode
-                                                ? t('game.dig-mode')
-                                                : t('game.flag-mode')}
-                                        </p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            onClick={initializeBoard}
-                                        >
-                                            <RotateCcw className="w-4 h-4" />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{t('game.reset-tooltip')}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                        <div className='flex items-center justify-end gap-2 w-[30%]'>
+                            <TooltipWrapper message={isFlagMode ? t('game.dig-mode') : t('game.flag-mode')}>
+                                <Button
+                                    variant={isFlagMode ? 'default' : 'outline'}
+                                    size='icon'
+                                    onClick={() => setIsFlagMode(!isFlagMode)}
+                                >
+                                    {isFlagMode ? (
+                                        <Flag className={cn('w-4 h-4')} />
+                                    ) : (
+                                        <Shovel className={cn('w-4 h-4')} />
+                                    )}
+                                </Button>
+                            </TooltipWrapper>
+                            <TooltipWrapper message={t('game.reset-tooltip')}>
+                                <Button
+                                    variant='outline'
+                                    size='icon'
+                                    onClick={initializeBoard}
+                                >
+                                    <RotateCcw className='w-4 h-4' />
+                                </Button>
+                            </TooltipWrapper>
                         </div>
                     </div>
-                    <div className="flex justify-center items-center mt-2 gap-2">
-                        <Badge variant="outline">
-                            {t('game.mine')}: {mines - flagCount}
+                    <div className='flex justify-center items-center mt-2 gap-2'>
+                        <Badge variant='outline'>
+                            {t('game.mine')}: {mines - flagsPlaced}
                         </Badge>
-                        {gameOver && (
-                            <Badge variant="destructive">
+                        {isGameOver && (
+                            <Badge variant='destructive'>
                                 {t('game.lose')}
                             </Badge>
                         )}
                         {gameWon && (
-                            <Badge variant="default">{t('game.win')}</Badge>
+                            <Badge variant='default'>{t('game.win')}</Badge>
                         )}
                     </div>
                 </CardHeader>
-                <CardContent className="p-2 md:p-4">
-                    <div className="max-w-full overflow-auto">
+                <CardContent className='p-2 md:p-4'>
+                    <div className='max-w-full overflow-auto'>
                         <div
-                            className="grid gap-[1px] mx-auto"
+                            className='grid gap-[1px] mx-auto'
                             style={{
                                 gridTemplateColumns: `repeat(${cols}, ${getCellSize()}px)`,
                                 width: 'fit-content',
@@ -406,8 +338,8 @@ export const Minesweeper = ({
                                 row.map((cell, colIndex) => (
                                     <Button
                                         key={`${rowIndex}-${colIndex}`}
-                                        variant="secondary"
-                                        size="icon"
+                                        variant='secondary'
+                                        size='icon'
                                         className={cn(
                                             getCellClasses(cell),
                                             'w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9',
@@ -431,10 +363,10 @@ export const Minesweeper = ({
                 </CardContent>
             </Card>
             <Particles
-                className="absolute inset-0 z-0"
+                className='absolute inset-0 z-0'
                 quantity={400}
                 ease={80}
-                color={color}
+                color={theme === 'dark' ? '#FFFFFF' : '#000000'}
                 refresh
             />
         </div>

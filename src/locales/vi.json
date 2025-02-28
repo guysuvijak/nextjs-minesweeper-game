@@ -1,7 +1,14 @@
 {
     "common": {
         "lang": "vi",
-        "game-title": "Dò Mìn"
+        "game-title": "Dò Mìn",
+        "loading": "Đang tải..."
+    },
+    "not-found": {
+        "title": "Không tìm thấy",
+        "description": "Vui lòng quay lại trang chủ.",
+        "loading": "Đang tải...",
+        "button": "Mặt sau"
     },
     "difficulty": {
         "easy": "Dễ",
@@ -14,6 +21,7 @@
         "difficulty": "Độ khó"
     },
     "gameresult": {
+        "description": "Minesweeper thật thú vị!",
         "win": "Bạn đã thắng!",
         "lose": "Trò chơi kết thúc!",
         "time": "Thời gian",
@@ -21,13 +29,12 @@
         "difficulty": "Độ khó",
         "flag": "Cờ đã đặt",
         "share-button": "Chia sẻ",
-        "back-button": "Về Menu chính"
+        "again-button": "Chơi lại"
     },
     "mainmenu": {
-        "description": "Tạo bởi MeteorVIIx",
+        "description": "Tạo bởi MeteorVIIx | Phiên bản {version}",
         "playgame": "Bắt đầu",
         "settings": "Cài đặt",
-        "leaderboard": "Bảng xếp hạng",
         "difficulty": {
             "title": "Chọn độ khó",
             "easy": "Dễ",
@@ -45,8 +52,8 @@
     },
     "settings": {
         "title": "Cài đặt",
-        "cancel-button": "Hủy",
-        "save-button": "Lưu thay đổi",
+        "description": "Tự do tùy chỉnh",
+        "done-button": "xong",
         "theme": {
             "title": "Giao diện",
             "system": "Hệ thống",

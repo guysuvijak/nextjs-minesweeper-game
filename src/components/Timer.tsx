@@ -1,18 +1,18 @@
 'use client';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { useGameStore } from '@/stores';
 
 interface TimerProps {
     isRunning: boolean;
     onTimeUpdate: (time: number) => void;
-}
+};
 
 export function Timer({ isRunning, onTimeUpdate }: TimerProps) {
-    const [ time, setTime ] = useState(0);
+    const { time, setTime } = useGameStore();
     const rafRef = useRef<number | null>(null);
     const startTimeRef = useRef<number | null>(null);
-
-    // ใช้ useCallback เพื่อ memoize ฟังก์ชัน
+    
     const updateTime = useCallback(() => {
         if (startTimeRef.current !== null) {
             const currentTime = performance.now();
@@ -23,7 +23,7 @@ export function Timer({ isRunning, onTimeUpdate }: TimerProps) {
             onTimeUpdate(elapsed);
             rafRef.current = requestAnimationFrame(updateTime);
         }
-    }, [onTimeUpdate]);
+    }, [onTimeUpdate, setTime]);
 
     useEffect(() => {
         if (isRunning) {
@@ -39,20 +39,16 @@ export function Timer({ isRunning, onTimeUpdate }: TimerProps) {
             }
         };
     }, [time, isRunning, updateTime]);
-
-    // ใช้ Intl.RelativeTimeFormat เพื่อความยืดหยุ่น
+    
     const formatTime = useCallback((seconds: number): string => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
-        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(
-            2,
-            '0'
-        )}`;
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }, []);
 
     return (
-        <Badge variant="outline" className="font-mono text-lg">
+        <Badge variant='outline' className='font-mono text-lg'>
             {formatTime(time)}
         </Badge>
-    );
-}
+    )
+};
