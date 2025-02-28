@@ -97,7 +97,7 @@ export const Minesweeper = ({
 
     useEffect(() => {
         handleGameOver();
-    }, [gameOver, gameWon, handleGameOver]); // เพิ่ม handleGameOver ใน dependency array
+    }, [gameOver, gameWon, handleGameOver]); 
 
     const initializeBoard = useCallback(() => {
         const newBoard: Cell[][] = Array(rows)
@@ -167,6 +167,10 @@ export const Minesweeper = ({
     };
 
     const revealCell = (row: number, col: number) => {
+        // ไม่เปิดช่องที่ปักธงไว้
+        if (board[row][col].isFlagged) return;
+
+        // ถ้าเป็นการเล่นครั้งแรก ให้เริ่มเกมและวางระเบิด
         if (!isGameStarted) {
             setIsGameStarted(true);
             placeMines(row, col); // วางระเบิดหลังจากเปิดช่องแรก
@@ -176,25 +180,15 @@ export const Minesweeper = ({
 
         const newBoard = [...board];
 
-        // ลบธงถ้ามี
-        if (newBoard[row][col].isFlagged) {
-            newBoard[row][col].isFlagged = false;
-            setFlagCount(flagCount - 1);
-        }
-
         if (board[row][col].isMine) {
-            // Game Over
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    if (newBoard[i][j].isMine) {
-                        newBoard[i][j].isRevealed = true;
-                    }
-                }
-            }
+            // เมื่อเจอระเบิด ให้แสดงเฉพาะระเบิดที่โดนเปิดและจบเกม
+            newBoard[row][col].isRevealed = true;
             setBoard(newBoard);
             setGameOver(true);
+            return;
         } else {
             const revealEmpty = (r: number, c: number) => {
+                // ตรวจสอบขอบเขตและเงื่อนไขการเปิดช่อง
                 if (
                     r < 0 ||
                     r >= rows ||
@@ -206,8 +200,10 @@ export const Minesweeper = ({
                     return;
                 }
 
+                // เปิดช่องปัจจุบัน
                 newBoard[r][c].isRevealed = true;
 
+                // ถ้าเป็นช่องว่าง (ไม่มีระเบิดข้างๆ) ให้เปิดช่องรอบๆ ด้วย
                 if (newBoard[r][c].neighborMines === 0) {
                     for (let i = -1; i <= 1; i++) {
                         for (let j = -1; j <= 1; j++) {
@@ -220,6 +216,7 @@ export const Minesweeper = ({
             revealEmpty(row, col);
             setBoard(newBoard);
 
+            // ตรวจสอบว่าชนะเกมหรือยัง
             const unrevealedNonMines = newBoard
                 .flat()
                 .filter((cell) => !cell.isRevealed && !cell.isMine).length;
