@@ -22,10 +22,12 @@ export interface GameStateProps {
 export interface SettingStateProps {
     isMenuSettingOpen: boolean;
     flagIcon: FlagStyle;
+    flagColor: string;
     bombIcon: BombStyle;
     numberStyle: NumberStyle;
     setIsMenuSettingOpen: (isMenuSettingOpen) => void;
     setFlagIcon: (flagIcon) => void;
+    setFlagColor: (flagColor) => void;
     setBombIcon: (bombIcon) => void;
     setNumberStyle: (numberStyle) => void;
 };

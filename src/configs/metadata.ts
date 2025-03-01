@@ -1,4 +1,12 @@
-import type { Metadata } from 'next';
+import type { Viewport, Metadata } from 'next';
+
+export const VIEWPORT: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    themeColor: '#000000'
+}
 
 export const METADATA: Metadata = {
     manifest: '/manifest.json',
@@ -29,4 +37,13 @@ export const METADATA: Metadata = {
         { rel: 'apple-touch-icon', url: 'icon/icon-128x128.png' },
         { rel: 'icon', url: 'icon/icon-128x128.png' },
     ],
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: 'Minesweeper'
+    },
+    applicationName: 'Minesweeper',
+    formatDetection: {
+        telephone: false
+    }
 };

@@ -24,12 +24,12 @@ export const Minesweeper = () => {
     const { t } = useTranslation();
     const {
         board, isGameOver, difficulty, isFlagMode, flagsPlaced,
-        setBoard, setIsStartGame, setIsShowResult, setIsGameOver, setIsFlagMode, setFlagsPlaced
+        setBoard, setTime, setIsStartGame, setIsShowResult, setIsGameOver, setIsFlagMode, setFlagsPlaced
     } = useGameStore();
-    const { flagIcon, bombIcon, numberStyle } = useSettingStore();
+    const { flagIcon, flagColor, bombIcon, numberStyle } = useSettingStore();
     const { theme } = useTheme();
-    const [ gameWon, setGameWon ] = useState(false);
     const { rows, cols, mines } = DIFFICULTY_DATA[difficulty as Difficulty];
+    const [ gameWon, setGameWon ] = useState(false);
     const [ timeElapsed, setTimeElapsed ] = useState(0);
     const [ isGameStarted, setIsGameStarted ] = useState(false);
     const scoreConfigRef = useRef(SCORE_CONFIG);
@@ -45,6 +45,7 @@ export const Minesweeper = () => {
         );
 
         setBoard(newBoard);
+        setTime(0);
         setIsGameOver(false);
         setGameWon(false);
         setFlagsPlaced(0);
@@ -144,20 +145,34 @@ export const Minesweeper = () => {
 
         if (board[row][col].isMine) {
             newBoard[row][col].isRevealed = true;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    if (newBoard[r][c].isMine) {
+                        newBoard[r][c].isRevealed = true;
+                    }
+                }
+            }
+
             setBoard(newBoard);
             setIsGameOver(true);
             return;
         } else {
+            let flagsRemoved = 0;
             const revealEmpty = (r: number, c: number) => {
                 if (
                     r < 0 ||
                     r >= rows ||
                     c < 0 ||
                     c >= cols ||
-                    newBoard[r][c].isRevealed ||
-                    newBoard[r][c].isFlagged
+                    newBoard[r][c].isRevealed
                 ) {
                     return;
+                }
+
+                if (newBoard[r][c].isFlagged) {
+                    newBoard[r][c].isFlagged = false;
+                    flagsRemoved++;
                 }
                 
                 newBoard[r][c].isRevealed = true;
@@ -173,6 +188,10 @@ export const Minesweeper = () => {
             
             revealEmpty(row, col);
             setBoard(newBoard);
+
+            if (flagsRemoved > 0) {
+                setFlagsPlaced(flagsPlaced - flagsRemoved);
+            }
             
             const unrevealedNonMines = newBoard
                 .flat()
@@ -194,7 +213,7 @@ export const Minesweeper = () => {
     };
 
     const getCellContent = (cell: Cell) => {
-        if (cell.isFlagged) return getFlagIcon(flagIcon);
+        if (cell.isFlagged) return getFlagIcon(flagIcon, flagColor);
         if (!cell.isRevealed) return null;
         if (cell.isMine) return getBombIcon(bombIcon);
 

@@ -25,10 +25,10 @@ const NUMBER_STYLES = {
     question: ['?', '?', '?', '?', '?', '?', '?', '?']
 };
 
-export const getFlagIcon = (style: FlagStyle) => {
+export const getFlagIcon = (style: FlagStyle, color: string) => {
     const option = FLAG_OPTIONS.find(opt => opt.value === style);
     const Icon = option?.icon || FLAG_OPTIONS[0].icon;
-    return <Icon className='w-4 h-4 text-red-500' />;
+    return <Icon className='w-4 h-4' style={{ color: `${color}` }} />;
 };
 
 export const getBombIcon = (style: BombStyle) => {

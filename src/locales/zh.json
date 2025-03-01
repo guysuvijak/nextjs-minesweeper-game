@@ -32,7 +32,7 @@
         "again-button": "再玩一次"
     },
     "mainmenu": {
-        "description": "由 MeteorVIIx 制作 | 版本 {version}",
+        "description": "由 MeteorVIIx 制作 | 版本 {versionGame}",
         "playgame": "开始游戏",
         "settings": "设置",
         "difficulty": {
@@ -70,6 +70,9 @@
         },
         "flag": {
             "title": "旗帜"
+        },
+        "flag-color": {
+            "title": "旗帜颜色"
         },
         "bomb": {
             "title": "地雷"

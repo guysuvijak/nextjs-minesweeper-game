@@ -1,0 +1,27 @@
+[package]
+name = "nextjs-minesweeper-game"
+version = "1.2.0"
+description = "A simple implementation of the classic Minesweeper game built with Next.js. This project showcases the use of React components and modern front-end development techniques. Players can enjoy the Minesweeper game experience directly in their browser, with a clean and responsive UI."
+license = "MIT"
+authors = ["MeteorVIIx"]
+edition = "2021"
+rust-version = "1.77.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "nextjs_minesweeper_game_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+

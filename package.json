@@ -1,6 +1,6 @@
 {
   "name": "nextjs-minesweeper-game",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A simple implementation of the classic Minesweeper game built with Next.js. This project showcases the use of React components and modern front-end development techniques. Players can enjoy the Minesweeper game experience directly in their browser, with a clean and responsive UI.",
   "repository": "git@github.com:guysuvijak/nextjs-minesweeper-game.git",
   "license": "MIT",
@@ -23,10 +23,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tauri": "tauri build"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^15.2.0",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@radix-ui/react-label": "^2.1.2",
@@ -34,8 +34,6 @@
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
-    "@tailwindcss/postcss": "^4.0.9",
-    "autoprefixer": "^10.4.20",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -43,23 +41,29 @@
     "lucide-react": "^0.475.0",
     "motion": "^12.4.2",
     "next": "15.1.7",
-    "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.0.1",
-    "tailwindcss-animate": "^1.0.7",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.2.0",
+    "@tailwindcss/postcss": "^4.0.9",
+    "@tauri-apps/cli": "^2.3.1",
     "@types/canvas-confetti": "^1.9.0",
+    "@types/next-pwa": "^5.6.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "next-pwa": "^5.6.0",
+    "next-themes": "^0.4.4",
     "postcss": "^8",
+    "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.9",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
   },
   "optionalDependencies": {

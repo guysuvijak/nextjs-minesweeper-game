@@ -32,7 +32,7 @@
         "again-button": "Play again"
     },
     "mainmenu": {
-        "description": "Create by MeteorVIIx | Version {version}",
+        "description": "Create by MeteorVIIx | Version {versionGame}",
         "playgame": "Start Game",
         "settings": "Settings",
         "difficulty": {
@@ -70,6 +70,9 @@
         },
         "flag": {
             "title": "Flag"
+        },
+        "flag-color": {
+            "title": "Flag Color"
         },
         "bomb": {
             "title": "Bomb"

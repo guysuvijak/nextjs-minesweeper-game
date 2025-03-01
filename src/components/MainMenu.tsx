@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,13 +14,14 @@ import { cn } from '@/lib/utils';
 import { DIFFICULTY_DATA } from '@/configs';
 import { useSettingStore } from '@/stores/settingStore';
 import { useGameStore } from '@/stores';
-import { version } from '../../package.json';
+import pkg from '../../package.json';
 
 export const MainMenu = () => {
     const { t } = useTranslation();
     const { setIsMenuSettingOpen } = useSettingStore();
     const { difficulty, setDifficulty, setIsStartGame } = useGameStore();
     const { theme } = useTheme();
+    const versionGame = pkg.version;
     
     const handleGameStart = () => {
         setIsStartGame(true);
@@ -100,7 +102,14 @@ export const MainMenu = () => {
 
                     {/* Game Info */}
                     <div className='text-center text-sm text-muted-foreground'>
-                        <p>{t('mainmenu.description', { version: version })}</p>
+                        <p>
+                            {t('mainmenu.description', {
+                                versionGame:
+                                    <Link href='https://github.com/guysuvijak/nextjs-minesweeper-game/blob/main/CHANGELOG.md' target='_blank' className='underline text-chart-2'>
+                                        {versionGame}
+                                    </Link>
+                            })}
+                        </p>
                         <CustomDock />
                     </div>
                 </CardContent>

@@ -32,7 +32,7 @@
         "again-button": "遊ぶ"
     },
     "mainmenu": {
-        "description": "作成者: MeteorVIIx | バージョン {version}",
+        "description": "作成者: MeteorVIIx | バージョン {versionGame}",
         "playgame": "ゲーム開始",
         "settings": "設定",
         "difficulty": {
@@ -70,6 +70,9 @@
         },
         "flag": {
             "title": "旗"
+        },
+        "flag-color": {
+            "title": "旗の色"
         },
         "bomb": {
             "title": "爆弾"

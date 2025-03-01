@@ -32,7 +32,7 @@
         "again-button": "Chơi lại"
     },
     "mainmenu": {
-        "description": "Tạo bởi MeteorVIIx | Phiên bản {version}",
+        "description": "Tạo bởi MeteorVIIx | Phiên bản {versionGame}",
         "playgame": "Bắt đầu",
         "settings": "Cài đặt",
         "difficulty": {
@@ -70,6 +70,9 @@
         },
         "flag": {
             "title": "Cờ"
+        },
+        "flag-color": {
+            "title": "Màu cờ"
         },
         "bomb": {
             "title": "Mìn"

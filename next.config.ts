@@ -1,11 +1,23 @@
 import type { NextConfig } from 'next';
 import NextBundleAnalyzer from '@next/bundle-analyzer';
+import createNextPWA from 'next-pwa';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const withBundleAnalyzer = NextBundleAnalyzer({
     enabled: process.env.ANALYZE === 'true'
 });
 
-const nextConfig: NextConfig = {
+const withPWA = createNextPWA({
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
+    register: true,
+    skipWaiting: true
+});
+
+const nextConfig = {
+    output: 'export',
+    assetPrefix: isProd ? undefined : `http://localhost:3000`,
     reactStrictMode: true,
     images: {
         unoptimized: true,
@@ -16,6 +28,6 @@ const nextConfig: NextConfig = {
             { hostname: 'www.nextjs-minesweeper-game.vercel.app'}
         ]
     }
-};
+} satisfies NextConfig;
 
-export default withBundleAnalyzer(nextConfig);
+export default isProd ? withPWA(nextConfig) : withBundleAnalyzer(nextConfig);

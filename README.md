@@ -77,7 +77,15 @@ pnpm run dev
 ```
 ### **4. The app will be available**
 [http://localhost:3000](http://localhost:3000)
-
+### **5. Export to cross-platform**
+```bash
+npm run tauri
+or
+bun run tauri
+or
+pnpm run tauri
+```
+note: If you want to Export Cross-platform, please follow setup before [Here](https://v2.tauri.app/start/prerequisites/)
 
 ## 🗺️ Project Structure
 ```bash

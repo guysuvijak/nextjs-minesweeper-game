@@ -32,7 +32,7 @@
         "again-button": "เล่นใหม่"
     },
     "mainmenu": {
-        "description": "สร้างโดย MeteorVIIx | เวอร์ชั่น {version}",
+        "description": "สร้างโดย MeteorVIIx | เวอร์ชั่น {versionGame}",
         "playgame": "เริ่มเกม",
         "settings": "ตั้งค่า",
         "difficulty": {
@@ -70,6 +70,9 @@
         },
         "flag": {
             "title": "ธง"
+        },
+        "flag-color": {
+            "title": "สีธง"
         },
         "bomb": {
             "title": "ระเบิด"
