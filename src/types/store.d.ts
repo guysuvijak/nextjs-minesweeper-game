@@ -1,6 +1,7 @@
 export interface GameStateProps {
     isStartGame: boolean;
     isGameOver: boolean;
+    isGameWon: boolean;
     isShowResult: boolean;
     board: Cell[][];
     difficulty: Difficulty;
@@ -10,6 +11,7 @@ export interface GameStateProps {
     score: number;
     setIsStartGame: (isStartGame) => void;
     setIsGameOver: (isGameOver) => void;
+    setIsGameWon: (isGameWon) => void;
     setIsShowResult: (isShowResult) => void;
     setBoard: (board) => void;
     setDifficulty: (difficulty) => void;

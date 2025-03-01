@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -23,16 +23,14 @@ import {
 export const Minesweeper = () => {
     const { t } = useTranslation();
     const {
-        board, isGameOver, difficulty, isFlagMode, flagsPlaced,
-        setBoard, setTime, setIsStartGame, setIsShowResult, setIsGameOver, setIsFlagMode, setFlagsPlaced
+        board, time, isGameOver, isGameWon, difficulty, isFlagMode, flagsPlaced,
+        setBoard, setTime, setScore, setIsStartGame, setIsShowResult, setIsGameOver, setIsGameWon, setIsFlagMode, setFlagsPlaced
     } = useGameStore();
     const { flagIcon, flagColor, bombIcon, numberStyle } = useSettingStore();
     const { theme } = useTheme();
     const { rows, cols, mines } = DIFFICULTY_DATA[difficulty as Difficulty];
-    const [ gameWon, setGameWon ] = useState(false);
     const [ timeElapsed, setTimeElapsed ] = useState(0);
     const [ isGameStarted, setIsGameStarted ] = useState(false);
-    const scoreConfigRef = useRef(SCORE_CONFIG);
 
     const initializeBoard = useCallback(() => {
         const newBoard: Cell[][] = Array(rows).fill(null)
@@ -47,7 +45,7 @@ export const Minesweeper = () => {
         setBoard(newBoard);
         setTime(0);
         setIsGameOver(false);
-        setGameWon(false);
+        setIsGameWon(false);
         setFlagsPlaced(0);
         setIsGameStarted(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,29 +55,39 @@ export const Minesweeper = () => {
         initializeBoard();
     }, [difficulty, initializeBoard]);
 
-    const calculateScore = useCallback(() => {
-        const config = scoreConfigRef.current;
-        const timeMultiplier = Math.max(1, (config.maxTime - timeElapsed) / config.maxTime);
+    const calculateScore = () => {
+        const config = SCORE_CONFIG;
+
+        if (!isGameWon) {
+            setScore(0);
+            return;
+        }
+
+        const timeMultiplier = Math.max(0.1, (config.maxTime - time) / config.maxTime);
         const difficultyMultiplier = config.multipliers[difficulty as Difficulty];
+        const { mines } = DIFFICULTY_DATA[difficulty as Difficulty];
         const flagAccuracyBonus = flagsPlaced === mines ? config.flagBonus : 1;
 
-        return Math.floor(
+        const finalScore = Math.floor(
             config.baseScore *
-                timeMultiplier *
-                difficultyMultiplier *
-                flagAccuracyBonus
+            timeMultiplier *
+            difficultyMultiplier *
+            flagAccuracyBonus
         );
-    }, [timeElapsed, flagsPlaced, difficulty, mines]);
+
+        setScore(finalScore);
+    };
 
     const handleGameOver = useCallback(() => {
-        if (isGameOver || gameWon) {
+        if (isGameOver || isGameWon) {
+            calculateScore();
             setIsGameStarted(false);
             setIsShowResult(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         isGameOver,
-        gameWon,
+        isGameWon,
         calculateScore,
         timeElapsed,
         difficulty,
@@ -89,7 +97,7 @@ export const Minesweeper = () => {
     useEffect(() => {
         handleGameOver();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isGameOver, gameWon]);
+    }, [isGameOver, isGameWon]);
 
     const placeMines = (firstRow: number, firstCol: number) => {
         const newBoard = [...board];
@@ -134,7 +142,7 @@ export const Minesweeper = () => {
     const revealCell = (row: number, col: number) => {
         if (board[row][col].isFlagged) return;
 
-        if (isGameOver || gameWon || board[row][col].isRevealed) return;
+        if (isGameOver || isGameWon || board[row][col].isRevealed) return;
         
         if (!isGameStarted) {
             setIsGameStarted(true);
@@ -198,13 +206,13 @@ export const Minesweeper = () => {
                 .filter((cell) => !cell.isRevealed && !cell.isMine).length;
 
             if (unrevealedNonMines === 0) {
-                setGameWon(true);
+                setIsGameWon(true);
             }
         }
     };
 
     const toggleFlag = (row: number, col: number) => {
-        if (isGameOver || gameWon || board[row][col].isRevealed) return;
+        if (isGameOver || isGameWon || board[row][col].isRevealed) return;
 
         const newBoard = [...board];
         newBoard[row][col].isFlagged = !newBoard[row][col].isFlagged;
@@ -299,7 +307,7 @@ export const Minesweeper = () => {
                         </div>
                         <div className='flex w-[40%] justify-center'>
                             <Timer
-                                isRunning={isGameStarted && !isGameOver && !gameWon}
+                                isRunning={isGameStarted && !isGameOver && !isGameWon}
                                 onTimeUpdate={setTimeElapsed}
                             />
                         </div>
@@ -337,7 +345,7 @@ export const Minesweeper = () => {
                                 {t('game.lose')}
                             </Badge>
                         )}
-                        {gameWon && (
+                        {isGameWon && (
                             <Badge variant='default'>{t('game.win')}</Badge>
                         )}
                     </div>

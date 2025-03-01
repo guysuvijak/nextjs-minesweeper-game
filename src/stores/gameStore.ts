@@ -4,6 +4,7 @@ import { GameStateProps } from '@/types';
 export const useGameStore = create<GameStateProps>((set) => ({
     isStartGame: false,
     isGameOver: false,
+    isGameWon: false,
     isShowResult: false,
     board: [],
     difficulty: 'easy',
@@ -13,6 +14,7 @@ export const useGameStore = create<GameStateProps>((set) => ({
     score: 0,
     setIsStartGame: (isStartGame) => set({ isStartGame }),
     setIsGameOver: (isGameOver) => set({ isGameOver }),
+    setIsGameWon: (isGameWon) => set({ isGameWon }),
     setIsShowResult: (isShowResult) => set({ isShowResult }),
     setBoard: (board) => set({ board }),
     setDifficulty: (difficulty) => set({ difficulty }),

@@ -1,6 +1,12 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.1] - 2025-03-01
+
+### Fixed
+- Game logic: Calculate score
+- Game system: When press restart button, not reset Flag placed.
+
 ## 📍 [1.2.0] - 2025-03-01
 Version 1.2.0 adds a PWA system for offline mobile play and integrates Tauri for cross-platform export, allowing the game to run on all platforms (desktop, macOS, Android, iOS, Linux, and web).
 

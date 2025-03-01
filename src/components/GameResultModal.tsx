@@ -34,7 +34,7 @@ interface WindowWithFileSystem extends Window {
 export function GameResultModal() {
     const { t } = useTranslation();
     const { theme } = useTheme();
-    const { board, isShowResult, difficulty, score, flagsPlaced, time, setIsGameOver, setIsShowResult, setBoard, setTime } = useGameStore();
+    const { board, isShowResult, isGameWon, difficulty, score, flagsPlaced, time, setIsGameOver, setFlagsPlaced, setIsShowResult, setBoard, setTime } = useGameStore();
     const { rows, cols } = DIFFICULTY_DATA[difficulty as Difficulty];
     const [ isSharing, setIsSharing ] = useState(false);
     const confettiRef = useRef<ConfettiRef>(null);
@@ -116,7 +116,7 @@ export function GameResultModal() {
                 };
                 
                 statsContent.appendChild(createStatItem(t('gameresult.time'), formatTime(time)));
-                statsContent.appendChild(createStatItem(t('gameresult.score'), score.toLocaleString()));
+                statsContent.appendChild(createStatItem(t('gameresult.score'), `${score.toLocaleString()} (${isGameWon ? t(`gameresult.win`) : t(`gameresult.lose`)})`));
                 statsContent.appendChild(createStatItem(t('gameresult.difficulty'), t(`difficulty.${difficulty}`)));
                 statsContent.appendChild(createStatItem(t('gameresult.flag'), flagsPlaced.toString()));
                 
@@ -303,6 +303,7 @@ export function GameResultModal() {
         );
         setBoard(newBoard);
         setTime(0);
+        setFlagsPlaced(0);
         setIsGameOver(false);
         setIsShowResult(false);
     };
@@ -312,7 +313,7 @@ export function GameResultModal() {
             <DialogContent className='sm:max-w-[425px]' aria-description='Game Result'>
                 <DialogHeader>
                     <DialogTitle>
-                        {score > 0 ? t('gameresult.win') : t('gameresult.lose')}
+                        {isGameWon ? t('gameresult.win') : t('gameresult.lose')}
                     </DialogTitle>
                     <DialogDescription>
                         {t('gameresult.description')}
@@ -339,7 +340,7 @@ export function GameResultModal() {
                     </Button>
                     <Button variant={'destructive'} onClick={handlePlayAgain}>{t('gameresult.again-button')}</Button>
                 </div>
-                {score > 0 &&
+                {isGameWon &&
                     <Confetti
                         ref={confettiRef}
                         className='absolute left-0 top-0 z-10 size-full'
