@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Minesweeper",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "identifier": "com.nextjs-minesweeper-game.app",
   "build": {
     "frontendDist": "../out",

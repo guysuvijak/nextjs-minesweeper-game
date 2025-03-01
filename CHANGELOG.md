@@ -1,6 +1,12 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.2] - 2025-03-01
+
+### Fixed
+- Fixed: Viewport (Lighthouse Accessibility score)
+- Fixed: VersionGame color (Lighthouse Accessibility score)
+
 ## 📍 [1.2.1] - 2025-03-01
 
 ### Fixed

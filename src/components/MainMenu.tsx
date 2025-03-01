@@ -105,7 +105,7 @@ export const MainMenu = () => {
                         <p>
                             {t('mainmenu.description', {
                                 versionGame:
-                                    <Link href='https://github.com/guysuvijak/nextjs-minesweeper-game/blob/main/CHANGELOG.md' target='_blank' className='underline text-chart-2'>
+                                    <Link href='https://github.com/guysuvijak/nextjs-minesweeper-game/blob/main/CHANGELOG.md' target='_blank' className='underline'>
                                         {versionGame}
                                     </Link>
                             })}
