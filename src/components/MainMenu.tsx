@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,14 +15,22 @@ import { cn } from '@/lib/utils';
 import { DIFFICULTY_DATA } from '@/configs';
 import { useSettingStore } from '@/stores/settingStore';
 import { useGameStore } from '@/stores';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { Web3ConnectButton } from '@/components/Web3Connect';
 import pkg from '../../package.json';
 
 export const MainMenu = () => {
     const { t } = useTranslation();
     const { setIsMenuSettingOpen } = useSettingStore();
     const { difficulty, setDifficulty, setIsStartGame } = useGameStore();
+    const wallet = useWallet();
     const { theme } = useTheme();
     const versionGame = pkg.version;
+
+    useEffect(() => {
+        if (!wallet.connected) {
+        }
+    }, [wallet]);
     
     const handleGameStart = () => {
         setIsStartGame(true);
@@ -90,14 +99,17 @@ export const MainMenu = () => {
                             </span>
                         </ShimmerButton>
                         
-                        <Button 
-                            variant='outline'
-                            className='flex items-center justify-center gap-2 h-9 sm:h-12'
-                            onClick={() => setIsMenuSettingOpen(true)}
-                        >
-                            <Settings className='w-4 h-4' />
-                            {t('mainmenu.settings')}
-                        </Button>
+                        <div className='flex gap-4'>
+                            <Web3ConnectButton />
+                            <Button 
+                                variant='outline'
+                                className='flex items-center justify-center gap-2 h-9 sm:h-12'
+                                onClick={() => setIsMenuSettingOpen(true)}
+                            >
+                                <Settings className='w-4 h-4' />
+                                {t('mainmenu.settings')}
+                            </Button>
+                        </div>
                     </div>
 
                     {/* Game Info */}

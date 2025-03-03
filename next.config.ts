@@ -17,15 +17,15 @@ const withPWA = createNextPWA({
 
 const nextConfig = {
     output: 'export',
-    assetPrefix: isProd ? undefined : `http://localhost:3000`,
+    assetPrefix: isProd ? 'https://nextjs-minesweeper-game.vercel.app' : '',
     reactStrictMode: true,
     images: {
         unoptimized: true,
         formats: ['image/webp'],
         deviceSizes: [32, 64, 96],
         remotePatterns: [
-            { hostname: 'www.google.com' },
-            { hostname: 'www.nextjs-minesweeper-game.vercel.app'}
+            { protocol: 'https', hostname: 'www.google.com' },
+            { protocol: 'https', hostname: 'nextjs-minesweeper-game.vercel.app' }
         ]
     }
 } satisfies NextConfig;

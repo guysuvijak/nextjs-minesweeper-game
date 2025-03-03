@@ -1,6 +1,6 @@
 {
   "name": "nextjs-minesweeper-game",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A simple implementation of the classic Minesweeper game built with Next.js. This project showcases the use of React components and modern front-end development techniques. Players can enjoy the Minesweeper game experience directly in their browser, with a clean and responsive UI.",
   "repository": "git@github.com:guysuvijak/nextjs-minesweeper-game.git",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "tauri": "tauri build"
+    "tauri": "tauri build --debug",
+    "info": "tauri info"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",
@@ -34,6 +35,11 @@
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/wallet-adapter-wallets": "^0.19.32",
+    "@solana/web3.js": "^1.98.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -41,6 +47,7 @@
     "lucide-react": "^0.475.0",
     "motion": "^12.4.2",
     "next": "15.1.7",
+    "pino-pretty": "^13.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zustand": "^5.0.3"
@@ -49,7 +56,9 @@
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.2.0",
     "@tailwindcss/postcss": "^4.0.9",
+    "@tauri-apps/api": "^2.3.0",
     "@tauri-apps/cli": "^2.3.1",
+    "@tauri-apps/plugin-opener": "^2.2.6",
     "@types/canvas-confetti": "^1.9.0",
     "@types/next-pwa": "^5.6.9",
     "@types/node": "^20",

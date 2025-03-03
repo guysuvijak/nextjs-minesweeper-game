@@ -1,6 +1,21 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.3] - 2025-03-04
+### Added
+- Web3 connect (solana)
+- package: @solana/wallet-adapter-base
+- package: @solana/wallet-adapter-react
+- package: @solana/wallet-adapter-react-ui
+- package: @solana/wallet-adapter-wallets
+- package: @solana/web3.js
+- package: pino-pretty
+- package: @tauri-apps/api
+- package: @tauri-apps/plugin-opener
+
+### Changed
+- not-found.webp image
+
 ## 📍 [1.2.2] - 2025-03-01
 
 ### Fixed

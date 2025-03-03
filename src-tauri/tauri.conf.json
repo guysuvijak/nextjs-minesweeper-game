@@ -1,11 +1,11 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Minesweeper",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "identifier": "com.nextjs-minesweeper-game.app",
   "build": {
     "frontendDist": "../out",
-    "devUrl": "http://localhost:3000",
+    "devUrl": "http://127.0.0.1:3000",
     "beforeDevCommand": "bun run dev",
     "beforeBuildCommand": "bun run build"
   },
@@ -23,7 +23,7 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https:; manifest-src 'self' data:;"
     }
   },
   "bundle": {
