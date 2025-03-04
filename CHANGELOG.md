@@ -1,6 +1,10 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.5] - 2025-03-04
+### Fixed
+- change web3 wallet connect autoConnect: false > true
+
 ## 📍 [1.2.4] - 2025-03-04
 ### Added
 - package: crypto-browserify & path-browserify

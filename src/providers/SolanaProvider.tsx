@@ -62,7 +62,7 @@ const SolanaProvider = ({ children }: SolanaProviderProps) => {
 
     const walletConfig = useMemo(() => ({
         wallets,
-        autoConnect: false
+        autoConnect: true
     }), [wallets]);
 
     return (
