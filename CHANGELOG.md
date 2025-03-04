@@ -1,6 +1,16 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.4] - 2025-03-04
+### Added
+- package: crypto-browserify & path-browserify
+
+### Changed
+- next.config.ts (assetPrefix & webpack)
+
+### Fixed
+- Fixed: Web3 Solana wallet connect issue on Desktop version
+
 ## 📍 [1.2.3] - 2025-03-04
 ### Added
 - Web3 connect (solana)

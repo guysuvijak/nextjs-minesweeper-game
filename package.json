@@ -1,6 +1,6 @@
 {
   "name": "nextjs-minesweeper-game",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A simple implementation of the classic Minesweeper game built with Next.js. This project showcases the use of React components and modern front-end development techniques. Players can enjoy the Minesweeper game experience directly in their browser, with a clean and responsive UI.",
   "repository": "git@github.com:guysuvijak/nextjs-minesweeper-game.git",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "tauri": "tauri build --debug",
+    "tauri": "NEXT_PUBLIC_BUILD_TARGET=desktop && tauri build",
     "info": "tauri info"
   },
   "dependencies": {
@@ -65,10 +65,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
+    "crypto-browserify": "^3.12.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.4.4",
+    "path-browserify": "^1.0.1",
     "postcss": "^8",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.9",

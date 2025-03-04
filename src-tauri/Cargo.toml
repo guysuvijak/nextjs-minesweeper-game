@@ -1,6 +1,6 @@
 [package]
 name = "nextjs-minesweeper-game"
-version = "1.2.3"
+version = "1.2.4"
 description = "A simple implementation of the classic Minesweeper game built with Next.js. This project showcases the use of React components and modern front-end development techniques. Players can enjoy the Minesweeper game experience directly in their browser, with a clean and responsive UI."
 license = "MIT"
 authors = ["MeteorVIIx"]

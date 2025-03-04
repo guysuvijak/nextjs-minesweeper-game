@@ -17,7 +17,7 @@ const withPWA = createNextPWA({
 
 const nextConfig = {
     output: 'export',
-    assetPrefix: isProd ? 'https://nextjs-minesweeper-game.vercel.app' : '',
+    assetPrefix: isProd ? undefined : 'http://localhost:3000',
     reactStrictMode: true,
     images: {
         unoptimized: true,
@@ -27,6 +27,17 @@ const nextConfig = {
             { protocol: 'https', hostname: 'www.google.com' },
             { protocol: 'https', hostname: 'nextjs-minesweeper-game.vercel.app' }
         ]
+    },
+    webpack: (config) => {
+        config.resolve.fallback = {
+            fs: false,
+            net: false, 
+            tls: false,
+            crypto: require.resolve('crypto-browserify'),
+            path: require.resolve('path-browserify')
+        };
+        
+        return config;  
     }
 } satisfies NextConfig;
 
