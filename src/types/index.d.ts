@@ -1,6 +1,6 @@
-import { GameStateProps, SettingStateProps } from './store';
+import { CommonStateProps, GameStateProps, SettingStateProps } from './store';
 
-export { GameStateProps, SettingStateProps };
+export { CommonStateProps, GameStateProps, SettingStateProps };
 
 export type Language = 'en' | 'th' | 'jp' | 'vi' | 'zh';
 export type FlagStyle = 'default' | 'pyramid' | 'radar' | 'sparkles' | 'sigma';

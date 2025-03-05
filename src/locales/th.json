@@ -2,6 +2,7 @@
     "common": {
         "lang": "th",
         "game-title": "เกมกู้ระเบิด",
+        "game-desc": "ขุดหลุมเพื่อความสนุก!",
         "loading": "กำลังโหลด..."
     },
     "not-found": {
@@ -33,14 +34,44 @@
     },
     "mainmenu": {
         "description": "สร้างโดย MeteorVIIx | เวอร์ชั่น {versionGame}",
-        "playgame": "เริ่มเกม",
         "settings": "ตั้งค่า",
-        "difficulty": {
-            "title": "เลือกระดับความยาก",
+        "singleplayer": {
+            "title": "เล่นคนเดียว",
+            "description": "เลือกระดับความยาก",
             "easy": "ง่าย",
             "medium": "ปานกลาง",
             "hard": "ยาก"
+        },
+        "multiplayer": {
+            "title": "เล่นหลายคน",
+            "description": "เลือกการแข่งขัน",
+            "casual-title": "จับคู่แบบสบายๆ",
+            "casual-desc": "เล่นเพื่อความสนุกโดยไม่มีการเปลี่ยนแปลงอันดับ",
+            "rank-title": "จับคู่แบบจัดอันดับ",
+            "rank-desc": "แข่งขันเพื่อไต่อันดับ"
+        },
+        "store": {
+            "title": "ร้านค้า"
+        },
+        "achievement": {
+            "title": "ความสำเร็จ",
+            "description": "ความสำเร็จทั้งหมดแสดงที่นี่",
+            "menu-all": "ทั้งหมด",
+            "menu-collected":"ได้รับแล้ว",
+            "menu-not-collected": "ยังไม่ได้รับ"
+        },
+        "quest": {
+            "title": "ภารกิจ",
+            "description": "ทำภารกิจประจำวันให้สำเร็จเพื่อรับรางวัล รีเซ็ตเวลาเที่ยงคืน",
+            "reset": "รีเซ็ตครั้งต่อไปเวลา 00:00 น. (GMT+7)"
         }
+    },
+    "achievement": {
+        "complete": "สำเร็จ",
+        "achieved": "ได้รับเมื่อ: {date}"
+    },
+    "quest": {
+        "complete": "สำเร็จ"
     },
     "game": {
         "mine": "ระเบิด",

@@ -2,6 +2,7 @@
     "common": {
         "lang": "zh",
         "game-title": "扫雷",
+        "game-desc": "挖洞真好玩！",
         "loading": "載入中..."
     },
     "not-found": {
@@ -33,14 +34,44 @@
     },
     "mainmenu": {
         "description": "由 MeteorVIIx 制作 | 版本 {versionGame}",
-        "playgame": "开始游戏",
         "settings": "设置",
-        "difficulty": {
-            "title": "选择难度",
+        "singleplayer": {
+            "title": "單人遊戲",
+            "description": "選擇難度",
             "easy": "简单",
             "medium": "中等",
             "hard": "困难"
+        },
+        "multiplayer": {
+            "title": "多人遊戲",
+            "description": "選擇比賽",
+            "casual-title": "休閒匹配",
+            "casual-desc": "享受樂趣，不改變排名",
+            "rank-title": "排名匹配",
+            "rank-desc": "競爭攀升排行榜"
+        },
+        "store": {
+            "title": "商店"
+        },
+        "achievement": {
+            "title": "成就",
+            "description": "所有成就均顯示於此",
+            "menu-all": "全部",
+            "menu-collected": "已收藏",
+            "menu-not-collected": "未收藏"
+        },
+        "quest": {
+            "title": "任務",
+            "description": "完成日常任務以獲得獎勵。午夜重置。",
+            "reset": "下次重置時間為 00:00 (GMT+7)"
         }
+    },
+    "achievement": {
+        "complete": "已完成",
+        "achieved": "於完成: {date}"
+    },
+    "quest": {
+        "complete": "完全的"
     },
     "game": {
         "mine": "地雷",

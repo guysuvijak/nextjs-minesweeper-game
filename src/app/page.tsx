@@ -1,8 +1,12 @@
 'use client'
 import { MainMenu } from '@/components/MainMenu';
 import { Minesweeper } from '@/components/Minesweeper';
-import { SettingsModal } from '@/components/SettingsModal';
-import { GameResultModal } from '@/components/GameResultModal';
+import { SingleplayerModal } from '@/components/modal/SingleplayerModal';
+import { MultiplayerModal } from '@/components/modal/MultiplayerModal';
+import { AchievementModal } from '@/components/modal/AchievementModal';
+import { QuestModal } from '@/components/modal/QuestModal';
+import { SettingsModal } from '@/components/modal/SettingsModal';
+import { GameResultModal } from '@/components/modal/GameResultModal';
 import { useGameStore } from '@/stores';
 
 export default function Home() {
@@ -15,6 +19,10 @@ export default function Home() {
             ) : (
                 <Minesweeper />
             )}
+            <SingleplayerModal />
+            <MultiplayerModal />
+            <AchievementModal />
+            <QuestModal />
             <SettingsModal />
             <GameResultModal />
         </>

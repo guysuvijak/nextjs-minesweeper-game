@@ -2,6 +2,7 @@
     "common": {
         "lang": "en",
         "game-title": "Minesweeper",
+        "game-desc": "Digging holes for fun!",
         "loading": "Loading..."
     },
     "not-found": {
@@ -33,14 +34,44 @@
     },
     "mainmenu": {
         "description": "Create by MeteorVIIx | Version {versionGame}",
-        "playgame": "Start Game",
         "settings": "Settings",
-        "difficulty": {
-            "title": "Select Difficulty",
+        "singleplayer": {
+            "title": "Singleplayer",
+            "description": "Select difficulty",
             "easy": "Easy",
             "medium": "Medium",
             "hard": "Hard"
+        },
+        "multiplayer": {
+            "title": "Multiplayer",
+            "description": "Select a competition",
+            "casual-title": "Casual Matchmaking",
+            "casual-desc": "Play for fun with no rank changes",
+            "rank-title": "Ranked Matchmaking",
+            "rank-desc": "Compete to climb the leaderboard"
+        },
+        "store": {
+            "title": "Store"
+        },
+        "achievement": {
+            "title": "Achievement",
+            "description": "All achievements are shown here",
+            "menu-all": "All",
+            "menu-collected":"Collected",
+            "menu-not-collected": "Not Collected"
+        },
+        "quest": {
+            "title": "Quests",
+            "description": "Complete daily quests to earn rewards. Resets at midnight.",
+            "reset": "Next reset at 00:00 (GMT+7)"
         }
+    },
+    "achievement": {
+        "complete": "Completed",
+        "achieved": "Achieved on: {date}"
+    },
+    "quest": {
+        "complete": "Completed"
     },
     "game": {
         "mine": "Mines",

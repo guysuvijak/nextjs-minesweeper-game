@@ -1,3 +1,15 @@
+export interface CommonStateProps {
+    isMenuQuestOpen: boolean;
+    isMenuAchievementOpen: boolean;
+    isMenuSettingOpen: boolean;
+    isMenuSingleplayerOpen: boolean;
+    isMenuMultiplayerOpen: boolean;
+    setIsMenuQuestOpen: (isMenuQuestOpen) => void;
+    setIsMenuAchievementOpen: (isAchievementOpen) => void;
+    setIsMenuSettingOpen: (isMenuSettingOpen) => void;
+    setIsMenuSingleplayerOpen: (isMenuSingleplayerOpen) => void;
+    setIsMenuMultiplayerOpen: (isMenuMultiplayerOpen) => void;
+};
 export interface GameStateProps {
     isStartGame: boolean;
     isGameOver: boolean;
@@ -22,12 +34,10 @@ export interface GameStateProps {
 };
 
 export interface SettingStateProps {
-    isMenuSettingOpen: boolean;
     flagIcon: FlagStyle;
     flagColor: string;
     bombIcon: BombStyle;
     numberStyle: NumberStyle;
-    setIsMenuSettingOpen: (isMenuSettingOpen) => void;
     setFlagIcon: (flagIcon) => void;
     setFlagColor: (flagColor) => void;
     setBombIcon: (bombIcon) => void;

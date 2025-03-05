@@ -11,7 +11,7 @@ interface WalletState {
     setConnecting: (status: boolean) => void;
 };
 
-const useWalletStore = create<WalletState>()(
+export const useWalletStore = create<WalletState>()(
     persist(
         (set) => ({
             connected: false,
@@ -31,5 +31,3 @@ const useWalletStore = create<WalletState>()(
         }
     )
 );
-
-export default useWalletStore;

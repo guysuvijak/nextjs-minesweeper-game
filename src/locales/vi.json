@@ -2,6 +2,7 @@
     "common": {
         "lang": "vi",
         "game-title": "Dò Mìn",
+        "game-desc": "Đào hố cho vui!",
         "loading": "Đang tải..."
     },
     "not-found": {
@@ -33,14 +34,44 @@
     },
     "mainmenu": {
         "description": "Tạo bởi MeteorVIIx | Phiên bản {versionGame}",
-        "playgame": "Bắt đầu",
         "settings": "Cài đặt",
-        "difficulty": {
-            "title": "Chọn độ khó",
+        "singleplayer": {
+            "title": "Chơi đơn",
+            "description": "Chọn độ khó",
             "easy": "Dễ",
             "medium": "Trung bình",
             "hard": "Khó"
+        },
+        "multiplayer": {
+            "title": "Nhiều người chơi",
+            "description": "Chọn một cuộc thi",
+            "casual-title": "Kết hợp thông thường",
+            "casual-desc": "Chơi vui mà không thay đổi thứ hạng",
+            "rank-title": "Kết hợp xếp hạng",
+            "rank-desc": "Cạnh tranh để leo lên bảng xếp hạng"
+        },
+        "store": {
+            "title": "Cửa hàng"
+        },
+        "achievement": {
+            "title": "Thành tích",
+            "description": "Tất cả thành tích được hiển thị ở đây",
+            "menu-all": "Tất cả",
+            "menu-collected":"Đã thu thập",
+            "menu-not-collected": "Chưa thu thập"
+        },
+        "quest": {
+            "title": "Các nhiệm vụ",
+            "description": "Hoàn thành nhiệm vụ hàng ngày để kiếm phần thưởng. Đặt lại vào lúc nửa đêm.",
+            "reset": "Lần đặt lại tiếp theo lúc 00:00 (GMT+7)"
         }
+    },
+    "achievement": {
+        "complete": "Hoàn thành",
+        "achieved": "Đạt được vào ngày: {date}"
+    },
+    "quest": {
+        "complete": "Hoàn thành"
     },
     "game": {
         "mine": "Mìn",

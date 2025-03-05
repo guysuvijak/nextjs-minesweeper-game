@@ -1,6 +1,25 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.6] - 2025-03-05
+### Added
+- package: axios & @radix-ui/react-tabs
+- image: menu & mode icon in mainmenu
+- font: each languages
+- added link Discord Channel in Dock Menu
+- added: Shared on discord server system (only Wallet connect)
+- added: Multiplayer Menu (MOCKUP Only)
+- added: Achievement Menu (MOCKUP Only)
+- added: Quests Menu (MOCKUP Only)
+- added: Store Menu (Nothing inside)
+- added: Icon for Singleplayer each mode.
+
+### Changed
+- updated: .env.example (add DISCORD_SHARE_WEBHOOK)
+- The font will change according to the selected language.
+- updated: UX/UI Mainmenu
+- Organize MainMenu & Modal files more neatly.
+
 ## 📍 [1.2.5] - 2025-03-04
 ### Fixed
 - change web3 wallet connect autoConnect: false > true

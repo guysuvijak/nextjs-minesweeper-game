@@ -9,7 +9,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Label } from '@/components/ui/label';
 import { useTheme } from 'next-themes';
 import { LANGUAGE_OPTIONS, FLAG_OPTIONS, BOMB_OPTIONS, NUMBER_OPTIONS } from '@/configs';
-import { useLanguageStore, useSettingStore } from '@/stores';
+import { useCommonStore, useLanguageStore, useSettingStore } from '@/stores';
 
 interface Option {
     value: string;
@@ -62,8 +62,8 @@ export const SettingsModal = () => {
     const { t } = useTranslation();
     const { lang, setLang } = useLanguageStore();
     const { theme, setTheme } = useTheme();
+    const { isMenuSettingOpen, setIsMenuSettingOpen } = useCommonStore();
     const {
-        isMenuSettingOpen, setIsMenuSettingOpen,
         flagIcon, setFlagIcon,
         flagColor, setFlagColor,
         bombIcon, setBombIcon,

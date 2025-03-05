@@ -2,9 +2,9 @@ import { FLAG_OPTIONS, BOMB_OPTIONS } from '@/configs/settings';
 import { FlagStyle, BombStyle, NumberStyle } from '@/types';
 
 export const DIFFICULTY_DATA = {
-    easy: { mines: 10, size: '9x9', rows: 9, cols: 9 },
-    medium: { mines: 40, size: '16x16', rows: 16, cols: 16 },
-    hard: { mines: 99, size: '16x30', rows: 16, cols: 30 }
+    easy: { mines: 10, size: '9x9', rows: 9, cols: 9, image: '/assets/icons/mode/mode-easy.webp' },
+    medium: { mines: 40, size: '16x16', rows: 16, cols: 16, image: '/assets/icons/mode/mode-medium.webp' },
+    hard: { mines: 99, size: '16x30', rows: 16, cols: 30, image: '/assets/icons/mode/mode-hard.webp' }
 };
 
 export const SCORE_CONFIG = {

@@ -5,7 +5,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
-import useWalletStore from '@/stores/walletStore';
+import { useWalletStore } from '@/stores';
 
 const networkRPC = process.env.NETWORK_RPC as 'mainnet' | 'testnet' | 'devnet';
 

@@ -9,6 +9,8 @@ import { Loader2 } from 'lucide-react';
 import { Cell, Difficulty } from '@/types';
 import { DIFFICULTY_DATA } from '@/configs';
 import { useTheme } from 'next-themes';
+import { sendWebhookDiscordShare } from '@/utils/discord-webhook';
+import { useWalletStore } from '@/stores';
 
 interface FileSystemWritableFileStream {
     write(data: Blob | BufferSource | string): Promise<void>;
@@ -34,6 +36,7 @@ interface WindowWithFileSystem extends Window {
 export function GameResultModal() {
     const { t } = useTranslation();
     const { theme } = useTheme();
+    const { publicKey, connected } = useWalletStore();
     const { board, isShowResult, isGameWon, difficulty, score, flagsPlaced, time, setIsGameOver, setFlagsPlaced, setIsShowResult, setBoard, setTime } = useGameStore();
     const { rows, cols } = DIFFICULTY_DATA[difficulty as Difficulty];
     const [ isSharing, setIsSharing ] = useState(false);
@@ -247,6 +250,15 @@ export function GameResultModal() {
                                     
                                     const writable = await fileHandle.createWritable();
                                     await writable.write(blob);
+                                    if (connected) {
+                                        try {
+                                            const imageUrl = URL.createObjectURL(blob);
+                                            await sendWebhookDiscordShare(publicKey, blob);
+                                            setTimeout(() => URL.revokeObjectURL(imageUrl), 5000);
+                                        } catch (webhookError) {
+                                            console.error('Error sending webhook:', webhookError);
+                                        }
+                                    }
                                     await writable.close();
                                 } catch (err) {
                                     if (err instanceof Error && err.name !== 'AbortError') {

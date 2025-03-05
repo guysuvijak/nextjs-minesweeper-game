@@ -5,12 +5,10 @@ import { SettingStateProps } from '@/types';
 export const useSettingStore = create<SettingStateProps>()(
     persist(
         (set) => ({
-            isMenuSettingOpen: false,
             flagIcon: 'default',
             flagColor: '#FF0000',
             bombIcon: 'default',
             numberStyle: 'default',
-            setIsMenuSettingOpen: (isMenuSettingOpen) => set({ isMenuSettingOpen }),
             setFlagIcon: (flagIcon) => set({ flagIcon }),
             setFlagColor: (flagColor) => set({ flagColor }),
             setBombIcon: (bombIcon) => set({ bombIcon }),

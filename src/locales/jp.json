@@ -2,6 +2,7 @@
     "common": {
         "lang": "jp",
         "game-title": "マインスイーパー",
+        "game-desc": "楽しく穴掘り！",
         "loading": "読み込み中..."
     },
     "not-found": {
@@ -33,14 +34,44 @@
     },
     "mainmenu": {
         "description": "作成者: MeteorVIIx | バージョン {versionGame}",
-        "playgame": "ゲーム開始",
         "settings": "設定",
-        "difficulty": {
-            "title": "難易度を選択",
+        "singleplayer": {
+            "title": "シングルプレイヤー",
+            "description": "難易度を選択",
             "easy": "簡単",
             "medium": "普通",
             "hard": "難しい"
+        },
+        "multiplayer": {
+            "title": "マルチプレイヤー",
+            "description": "コンテストを選択",
+            "casual-title": "カジュアル マッチメイキング",
+            "casual-desc": "ランク変更なしで楽しくプレイ",
+            "rank-title": "ランク マッチメイキング",
+            "rank-desc": "ランキング上位を目指して競い合う"
+        },
+        "store": {
+            "title": "ストア"
+        },
+        "achievement": {
+            "title": "実績",
+            "description": "すべての実績がここに表示されます",
+            "menu-all": "すべて",
+            "menu-collected": "収集済み",
+            "menu-not-collected": "収集されていません"
+        },
+        "quest": {
+            "title": "クエスト",
+            "description": "毎日のクエストを完了して報酬を獲得します。真夜中にリセットされます。",
+            "reset": "次回のリセットは00:00（GMT+7）"
         }
+    },
+    "achievement": {
+        "complete": "完了しました",
+        "achieved": "達成日: {date}"
+    },
+    "quest": {
+        "complete": "完了"
     },
     "game": {
         "mine": "地雷",
