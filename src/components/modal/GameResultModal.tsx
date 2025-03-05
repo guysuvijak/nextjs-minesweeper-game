@@ -253,7 +253,11 @@ export function GameResultModal() {
                                     if (connected) {
                                         try {
                                             const imageUrl = URL.createObjectURL(blob);
-                                            await sendWebhookDiscordShare(publicKey, blob);
+                                            const data = {
+                                                publicKey: publicKey,
+                                                imageBlob: blob
+                                            }
+                                            await sendWebhookDiscordShare(data);
                                             setTimeout(() => URL.revokeObjectURL(imageUrl), 5000);
                                         } catch (webhookError) {
                                             console.error('Error sending webhook:', webhookError);

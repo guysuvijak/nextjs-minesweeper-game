@@ -1,6 +1,10 @@
 # Minesweeper Changelog
 All notable changes to this project will be documented in this file.
 
+## 📍 [1.2.7] - 2025-03-05
+### Fixed
+- error share discord on webhook (env issue)
+
 ## 📍 [1.2.6] - 2025-03-05
 ### Added
 - package: axios & @radix-ui/react-tabs

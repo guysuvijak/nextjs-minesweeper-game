@@ -1,27 +1,26 @@
-import axios from 'axios';
+interface DataProps {
+    publicKey: string | null;
+    imageBlob: Blob;
+};
 
-const shareWebhook = process.env.DISCORD_SHARE_WEBHOOK as string;
-
-export const sendWebhookDiscordShare = async (publicKey: string | null, imageBlob: Blob) => {
+export const sendWebhookDiscordShare = async (data: DataProps) => {
     try {
         const formData = new FormData();
+        formData.append('publicKey', data.publicKey || 'Anonymous Player');
+        formData.append('file', data.imageBlob, 'minesweeper-score.png');
         
-        const payload = {
-            content: `Minesweeper score shared by: ${publicKey || 'Anonymous'}`
-        };
-        
-        formData.append("payload_json", JSON.stringify(payload));
-        
-        formData.append("file", imageBlob, "minesweeper-score.png");
-        
-        const response = await axios.post(shareWebhook, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+        const response = await fetch('/api/discord-webhook', {
+            method: 'POST',
+            body: formData
         });
-
-        return response;
+        
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
+        
+        return await response.json();
     } catch (error) {
+        console.error('Error calling webhook API:', error);
         throw error;
     }
 };
